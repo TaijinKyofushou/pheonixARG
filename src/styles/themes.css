@@ -1,0 +1,21 @@
+.theme-notice {
+  --color-bg: #f7f7fb;
+  --color-fg: #1a1d24;
+  --color-panel: #ffffff;
+  --color-border: #d7dbe6;
+  --color-accent: #b22222;
+  --color-accent-soft: #f3e1e1;
+  --color-link: #0b57d0;
+}
+
+.theme-forum {
+  --color-bg: #050508;
+  --color-fg: #e8b4b4;
+  --color-panel: #0c0c10;
+  --color-border: #4a1518;
+  --color-accent: #b01010;
+  --color-accent-soft: #1a0808;
+  --color-link: #ff6b6b;
+  --color-blood: #8b0000;
+  --color-ash: #2a1818;
+}

@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FullPageNode } from '@/types/story'
 import SearchPanel from '@/components/chat/SearchPanel.vue'
 import { useGameStore } from '@/stores/game'
 
 const props = defineProps<{
+  nodeId?: number
   node: FullPageNode
   forumVariant: 'guest' | 'd_posts' | 'truth'
 }>()
@@ -12,12 +14,23 @@ const props = defineProps<{
 const router = useRouter()
 const game = useGameStore()
 
+/** 主帖（10）、「我的发帖」（12）在论坛账号 D 已登录时显示入口（node 26 使用 ForumNode26View） */
+const showForumProfileButton = computed(() => {
+  const id = props.nodeId
+  if (id !== 10 && id !== 12) return false
+  return game.forumLoggedIn
+})
+
 function goLogin() {
   router.push('/node/11')
 }
 
 function back() {
   router.push('/node/1')
+}
+
+function goProfile() {
+  router.push('/node/32')
 }
 
 function onForumSearch(kw: string) {
@@ -29,13 +42,13 @@ function onForumSearch(kw: string) {
   if (!ok) {
     alert('未找到匹配关键词！')
     return
-  } else {
-    alert('搜索到相关内容 1 条')
   }
+  alert('搜索到相关内容 1 条')
   const map: Record<string, string> = {
     薪火焚身: '/node/13',
     玄坛秘笺: '/node/14',
     爝火赓炁: '/node/15',
+    重明龛: '/node/26',
   }
   const path = map[kw.trim()]
   if (path) router.push(path)
@@ -46,8 +59,11 @@ function onForumSearch(kw: string) {
   <div class="wrap theme-forum">
     <header class="top">
       <button type="button" class="back" @click="back">返回</button>
-      <div class="brand">午舍凶铃</div>
+      <div class="brand">四零四聊斋</div>
       <div class="spacer" />
+      <button v-if="showForumProfileButton" type="button" class="to-profile" @click="goProfile">
+        主页
+      </button>
       <button v-if="forumVariant === 'guest'" type="button" class="login" @click="goLogin">登录</button>
       <span v-else class="pill">已登录：Deposit</span>
     </header>
@@ -62,7 +78,6 @@ function onForumSearch(kw: string) {
           <h1 class="thread-title">{{ node.forumThread.title }}</h1>
           <div class="thread-meta">
             <span><span class="label">发帖人：</span>{{ node.forumThread.author }}</span>
-            <span class="meta-sep">·</span>
             <span><span class="label">发布时间：</span>{{ node.forumThread.publishedAt }}</span>
           </div>
 
@@ -156,18 +171,13 @@ function onForumSearch(kw: string) {
 </template>
 
 <style scoped>
-/* 黑底红字 · 横屏主内容区加宽 · 宋体/衬线增强恐怖感 */
+/* 黑底红字 · 横屏主内容区加宽 · 字体见 themes.css `.theme-forum` */
 .wrap {
   min-height: 100vh;
   color: var(--color-fg);
   background:
     radial-gradient(ellipse 80% 50% at 50% 0%, rgba(80, 0, 0, 0.35), transparent 55%),
     linear-gradient(180deg, #020203 0%, #0a0506 40%, #050308 100%);
-  font-family:
-    'Source Han Serif SC Light',
-    'Noto Serif SC Light',
-    'Songti SC Light',
-    NSimSun;
 }
 
 .top {
@@ -188,6 +198,23 @@ function onForumSearch(kw: string) {
 }
 .spacer {
   flex: 1;
+}
+.to-profile {
+  margin-right: 0.35rem;
+  border: 1px solid #5c1010;
+  background: #120606;
+  color: #e88888;
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.88rem;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
+}
+.to-profile:hover {
+  border-color: var(--color-accent);
+  color: #ffb4b4;
 }
 .back,
 .login {
@@ -280,10 +307,6 @@ function onForumSearch(kw: string) {
 }
 .thread-meta .label {
   color: #5c3838;
-}
-.meta-sep {
-  opacity: 0.45;
-  color: #4a2020;
 }
 
 .thread-section {

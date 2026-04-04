@@ -27,10 +27,6 @@ const viewCount = computed(() => 120 + (props.node.id * 47) % 380)
 function back() {
   router.push('/node/1')
 }
-
-function goHome() {
-  router.push('/node/0')
-}
 </script>
 
 <template>
@@ -44,7 +40,7 @@ function goHome() {
 
     <div class="shell">
       <nav class="crumb" aria-label="面包屑">
-        <span class="crumb-link" @click="goHome">首页</span>
+        <span class="crumb-link">首页</span>
         <span class="crumb-sep" aria-hidden="true">&gt;&gt;</span>
         <span class="crumb-here">正文</span>
       </nav>
@@ -135,14 +131,9 @@ function goHome() {
   border: none;
   background: none;
   padding: 0;
-  cursor: pointer;
   color: #7f1d1d;
   font: inherit;
   text-decoration: none;
-}
-.crumb-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 .crumb-sep {
   margin: 0 0.35rem;

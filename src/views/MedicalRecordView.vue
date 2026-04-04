@@ -1,12 +1,34 @@
 <script setup lang="ts">
 import type { FullPageNode } from '@/types/story'
-import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+/** 仅用于地址栏展示的解密线索，应用内不读取校验 */
+const MEDICAL_RECORD_URL_PASSWORD = 'GUtoA7sX'
+const MEDICAL_RECORD_URL_ID = 'Bell'
 
 defineProps<{
   node: FullPageNode
 }>()
 
+const route = useRoute()
 const router = useRouter()
+
+onMounted(() => {
+  if (
+    route.query.userId !== MEDICAL_RECORD_URL_ID ||
+    route.query.PASSWORD !== MEDICAL_RECORD_URL_PASSWORD
+  ) {
+    router.replace({
+      path: route.path,
+      query: {
+        ...route.query,
+        userId: MEDICAL_RECORD_URL_ID,
+        password: MEDICAL_RECORD_URL_PASSWORD,
+      },
+    })
+  }
+})
 
 function back() {
   router.push('/node/1')
@@ -32,7 +54,7 @@ function back() {
           <tbody>
             <tr>
               <td class="label">姓名</td>
-              <td class="value">Collide</td>
+              <td class="value">张一然</td>
               <td class="label">年龄</td>
               <td class="value">25岁</td>
             </tr>
@@ -105,7 +127,7 @@ function back() {
             </tr>
             <tr>
               <td class="label">手术外伤史</td>
-              <td class="value" colspan="3">2010年火灾吸入性损伤、深II度烧伤。有肺部手术史。</td>
+              <td class="value" colspan="3">2010年深II度烧伤、因吸入性损伤行肺部手术。</td>
             </tr>
             <tr>
               <td class="label">过敏史</td>
@@ -128,7 +150,7 @@ function back() {
           <tbody>
             <tr>
               <td class="label">生命体征</td>
-              <td class="value" colspan="3">T 38.5℃ P 112次/分 R 28次/分 BP 95/60mmHg SpO2 88%（静息状态）</td>
+              <td class="value" colspan="3">T：38.5℃ P：112次/分 R：28次/分 BP：95/60mmHg SpO2：88%（静息）</td>
             </tr>
             <tr>
               <td class="label">一般情况</td>

@@ -8,6 +8,7 @@
   --color-link: #0b57d0;
 }
 
+/* 论坛线：宋体/衬线；表单控件默认用系统字体，需显式 inherit 才与正文一致 */
 .theme-forum {
   --color-bg: #050508;
   --color-fg: #e8b4b4;
@@ -18,4 +19,15 @@
   --color-link: #ff6b6b;
   --color-blood: #8b0000;
   --color-ash: #2a1818;
+  color: var(--color-fg);
+  font-family:
+    'Source Han Serif SC Light',
+    'Noto Serif SC Light',
+    'Songti SC Light',
+    NSimSun,
+    serif;
+}
+
+.theme-forum :is(button, input, textarea, select) {
+  font-family: inherit;
 }

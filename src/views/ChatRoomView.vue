@@ -25,6 +25,8 @@ const game = useGameStore()
 const { followShareLink } = useChatShareLink()
 
 const panel = ref<'main' | string>('main')
+/** 搜索解锁新对话时保持当前滚动位置，不自动滚到底 */
+const suppressNextSegmentScroll = ref(false)
 
 const layout = computed(() => chatRoomLayouts[props.nodeId])
 
@@ -46,8 +48,9 @@ const contacts = computed(() => {
 function onSearch(kw: string) {
   const ok = game.tryChatKeywordSearch(kw)
   if (ok) {
+    suppressNextSegmentScroll.value = true
     panel.value = 'main'
-    alert('搜索到匹配聊天记录，已切换到主频道。')
+    alert('搜索到1条聊天记录，已切换到主频道。')
   } else {
     alert('未找到匹配关键词！')
   }
@@ -127,7 +130,12 @@ const paneHead = computed(() => {
 
     <template #pane-head>{{ paneHead }}</template>
 
-    <ChatBubbleThread :segments="feedSegments" @link="onLink" />
+    <ChatBubbleThread
+      :segments="feedSegments"
+      :suppress-next-segment-scroll="suppressNextSegmentScroll"
+      @consumed-suppress-segment-scroll="suppressNextSegmentScroll = false"
+      @link="onLink"
+    />
   </ChatRoomLayout>
 
   <div v-else class="missing">未找到聊天室布局配置（node {{ nodeId }}）</div>

@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import type { FullPageNode } from '@/types/story'
 import { useRouter } from 'vue-router'
+import { useGameStore } from '@/stores/game'
 
-const props = defineProps<{
+defineProps<{
   node: FullPageNode
 }>()
 
 const router = useRouter()
+const game = useGameStore()
 
 function back() {
+  if (game.forumHauntedAfter26) {
+    router.push('/node/1')
+    return
+  }
   router.push('/node/12')
 }
 </script>

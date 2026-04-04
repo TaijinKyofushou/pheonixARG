@@ -30,8 +30,8 @@ function submit() {
     err.value = '密码错误'
     return
   }
-  else alert('登录成功！正在跳转到“我的发帖”页面……')
-  router.push('/node/12')
+  else alert('登录成功！正在进入个人主页……')
+  router.push('/node/32')
 }
 </script>
 
@@ -78,6 +78,7 @@ function submit() {
 }
 .h {
   margin: 0;
+  color: #7c0000;
 }
 .top {
   display: flex;

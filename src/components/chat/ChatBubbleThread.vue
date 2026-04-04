@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { parseContentToBubbleRows, type SpeakerRoleKey } from '@/utils/chatParse'
 import { useGameStore } from '@/stores/game'
 
-const props = defineProps<{
-  /** 每段对话带时间轴文案 */
-  segments: Array<{ timeline: string; raw: string }>
-}>()
+const props = withDefaults(
+  defineProps<{
+    /** 每段对话带时间轴文案 */
+    segments: Array<{ timeline: string; raw: string }>
+    /** 为 true 时，下一次因 segments 变化触发的自动滚底将跳过（如搜索解锁新对话） */
+    suppressNextSegmentScroll?: boolean
+  }>(),
+  { suppressNextSegmentScroll: false },
+)
 
 const emit = defineEmits<{
   link: [linkId: number]
+  'consumed-suppress-segment-scroll': []
 }>()
 
 const { chatLoginUser } = storeToRefs(useGameStore())
@@ -50,10 +56,51 @@ function shouldShowAvatar(role: SpeakerRoleKey): boolean {
 function isDateOnlyTimeline(t: string): boolean {
   return /^\d{4}\/\d{1,2}\/\d{1,2}$/.test(t.trim())
 }
+
+const threadRoot = ref<HTMLElement | null>(null)
+
+function getFeedEl(): HTMLElement | null {
+  const el = threadRoot.value?.closest('.im-feed')
+  return el instanceof HTMLElement ? el : null
+}
+
+function scrollFeedToEnd(): void {
+  const feed = getFeedEl()
+  if (!feed) return
+  feed.scrollTop = feed.scrollHeight
+}
+
+const segmentLayoutKey = () =>
+  props.segments.map((s) => s.raw.length + s.timeline).join('|')
+
+/**
+ * 在 DOM 更新后同步设置 scrollTop，避免 requestAnimationFrame 排到绘制之后
+ * 造成「先看到顶部再跳到底」的闪烁。
+ */
+onMounted(() => {
+  nextTick(() => {
+    nextTick(() => {
+      scrollFeedToEnd()
+    })
+  })
+})
+
+watch(
+  segmentLayoutKey,
+  () => {
+    if (props.suppressNextSegmentScroll) {
+      emit('consumed-suppress-segment-scroll')
+      return
+    }
+    scrollFeedToEnd()
+    nextTick(scrollFeedToEnd)
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
-  <div class="thread">
+  <div ref="threadRoot" class="thread">
     <template v-for="(seg, si) in prepared" :key="si">
       <div v-if="seg.timeline" class="time-divider">
         <span class="time-line" />
@@ -236,17 +283,12 @@ function isDateOnlyTimeline(t: string): boolean {
   background: none;
   border: none;
   padding: 0;
-  text-decoration: underline;
   cursor: pointer;
   font: inherit;
-  color: #141414;
-}
-.bubble--april .link,
-.bubble--bell .link,
-.bubble--collide .link,
-.bubble--deposit .link,
-.bubble--other .link {
-  color: #141414;
-  text-decoration-color: #e8e8e8;
+  color: #0b57d0;
+  text-decoration: underline;
+  text-decoration-color: #0b57d0;
+  text-underline-offset: 1px;
+  text-decoration-thickness: 1px;
 }
 </style>

@@ -1,6 +1,6 @@
 /** 初始聊天室关键词 -> 解锁的聊天块节点 id */
 export const CHAT_KEYWORD_TO_BLOCK_ID: Record<string, number> = {
-  王文礼: 2,
+  黄文礼: 2,
   张杨: 3,
   美赛: 4,
   教三地下室: 5,
@@ -15,6 +15,7 @@ export const FORUM_KEYWORD_TO_NODE_ID: Record<string, number> = {
   薪火焚身: 13,
   玄坛秘笺: 14,
   爝火赓炁: 15,
+  重明龛: 26,
 }
 
 /** 消息中的分享链接 n -> 跳转的节点 id */

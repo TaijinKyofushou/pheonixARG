@@ -21,6 +21,8 @@ const { chatLoginUser } = storeToRefs(game)
 const { followShareLink } = useChatShareLink()
 
 const selectedContactId = ref('main')
+/** 搜索解锁新对话时保持当前滚动位置，不自动滚到底 */
+const suppressNextSegmentScroll = ref(false)
 
 const contacts = computed(() => getInitialRoomContacts(chatLoginUser.value))
 
@@ -84,8 +86,9 @@ const paneHead = computed(() => {
 function onSearch(kw: string) {
   const ok = game.tryChatKeywordSearch(kw)
   if (ok) {
+    suppressNextSegmentScroll.value = true
     selectedContactId.value = 'main'
-    alert('搜索到匹配聊天记录')
+    alert('搜索到1条聊天记录')
   } else {
     alert('未找到匹配关键词！')
   }
@@ -97,6 +100,10 @@ function onLink(linkId: number) {
 
 function goLogin() {
   router.push('/node/7')
+}
+
+function onLogout() {
+  game.logoutChat()
 }
 
 function selectContact(id: string) {
@@ -114,7 +121,15 @@ function selectContact(id: string) {
     composer-hint="此聊天室已关闭，无法发送消息！"
   >
     <template #actions>
-      <button type="button" class="btn-login" @click="goLogin">登录</button>
+      <button
+        v-if="chatLoginUser === 'none'"
+        type="button"
+        class="btn-login"
+        @click="goLogin"
+      >
+        登录
+      </button>
+      <button v-else type="button" class="btn-out" @click="onLogout">退出登录</button>
     </template>
 
     <template #search>
@@ -148,7 +163,12 @@ function selectContact(id: string) {
 
     <template #pane-head>{{ paneHead }}</template>
 
-    <ChatBubbleThread :segments="feedSegments" @link="onLink" />
+    <ChatBubbleThread
+      :segments="feedSegments"
+      :suppress-next-segment-scroll="suppressNextSegmentScroll"
+      @consumed-suppress-segment-scroll="suppressNextSegmentScroll = false"
+      @link="onLink"
+    />
   </ChatRoomLayout>
 
   <teleport to="body">
@@ -244,6 +264,19 @@ function selectContact(id: string) {
   cursor: pointer;
 }
 .btn-login:hover {
+  background: #f3f4f6;
+}
+.btn-out {
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.btn-out:hover {
   background: #f3f4f6;
 }
 .toast {

@@ -67,7 +67,7 @@ function ignite() {
           <span>月</span>
           <input v-model="r.day" class="inp w2" maxlength="4" />
           <span>日许愿，其愿为</span>
-          <span class="fix">{{ ['死而复生', '知足常乐', '金榜题名', '存在抹除'][idx] }}</span>
+          <span class="fix">{{ ['死而复生', '知足常乐', '学业有成', '存在抹除'][idx] }}</span>
           <span>，薪主</span>
           <input v-model="r.薪主" class="inp tiny" maxlength="10" />
           <span>。</span>

@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useGameStore } from '@/stores/game'
 import { CHAT_BLOCK_IDS } from '@/content/unlockRules'
+
+/** 进入 node26 后，这些节点一律改道 node15（与 story 中论坛线对应） */
+const FORUM_NODES_REDIRECT_TO_15_AFTER_26 = new Set([10, 11, 12, 13, 14, 32])
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +31,11 @@ router.beforeEach((to, _from, next) => {
   }
   if (CHAT_BLOCK_IDS.has(id)) {
     next({ path: '/node/1', replace: true })
+    return
+  }
+  const game = useGameStore()
+  if (game.forumHauntedAfter26 && FORUM_NODES_REDIRECT_TO_15_AFTER_26.has(id)) {
+    next({ path: '/node/15', replace: true })
     return
   }
   next()

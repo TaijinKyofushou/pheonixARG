@@ -32,6 +32,8 @@ interface PersistShape {
   viewedSegments: string[]
   puzzleSolved: boolean
   ending27SeenIntro: boolean
+  /** 曾进入论坛真相帖 node26 后，论坛相关节点改道 node15 */
+  forumHauntedAfter26?: boolean
 }
 
 export const useGameStore = defineStore('game', () => {
@@ -45,6 +47,8 @@ export const useGameStore = defineStore('game', () => {
   /** 结局27：已与 A 对话完毕，可去地下室 */
   const ending27ReadyFor28 = ref(false)
   const ending27SeenIntro = ref(false)
+  /** 进入 node26 后，node10/11/12/13/14 路由改至 node15 */
+  const forumHauntedAfter26 = ref(false)
 
   const hydrated = ref(false)
 
@@ -57,6 +61,7 @@ export const useGameStore = defineStore('game', () => {
       viewedSegments: [...viewedSegments.value],
       puzzleSolved: puzzleSolved.value,
       ending27SeenIntro: ending27SeenIntro.value,
+      forumHauntedAfter26: forumHauntedAfter26.value,
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(p))
   }
@@ -76,11 +81,21 @@ export const useGameStore = defineStore('game', () => {
     if (p.viewedSegments?.length) viewedSegments.value = new Set(p.viewedSegments)
     if (typeof p.puzzleSolved === 'boolean') puzzleSolved.value = p.puzzleSolved
     if (typeof p.ending27SeenIntro === 'boolean') ending27SeenIntro.value = p.ending27SeenIntro
+    if (typeof p.forumHauntedAfter26 === 'boolean') forumHauntedAfter26.value = p.forumHauntedAfter26
     hydrated.value = true
   }
 
   watch(
-    [unlockedNodeIds, chatBlockIds, forumLoggedIn, chatLoginUser, viewedSegments, puzzleSolved, ending27SeenIntro],
+    [
+      unlockedNodeIds,
+      chatBlockIds,
+      forumLoggedIn,
+      chatLoginUser,
+      viewedSegments,
+      puzzleSolved,
+      ending27SeenIntro,
+      forumHauntedAfter26,
+    ],
     () => {
       if (!hydrated.value) return
       persist()
@@ -148,6 +163,7 @@ export const useGameStore = defineStore('game', () => {
     if (account !== 'Deposit') return 'no_account'
     if (password !== 'Deposit') return 'bad_password'
     forumLoggedIn.value = true
+    unlockNode(32)
     unlockNode(12)
     return 'ok'
   }
@@ -181,7 +197,7 @@ export const useGameStore = defineStore('game', () => {
       return 'ok'
     }
     if (isBell) {
-      if (pwd !== 'GUto#7sX') return 'bad_password'
+      if (pwd !== 'GUtoA7sX') return 'bad_password'
       chatLoginUser.value = 'bell'
       unlockNode(23)
       return 'ok'
@@ -249,7 +265,12 @@ export const useGameStore = defineStore('game', () => {
     ending27ReadyFor28.value = false
     ending27SeenIntro.value = false
     ending27Available.value = false
+    forumHauntedAfter26.value = false
     persist()
+  }
+
+  function markForumHauntedAfterNode26() {
+    forumHauntedAfter26.value = true
   }
 
   const isUnlocked = (id: number) => unlockedNodeIds.value.has(id)
@@ -266,6 +287,8 @@ export const useGameStore = defineStore('game', () => {
     ending27Available: computed(() => ending27Available.value),
     ending27ReadyFor28: computed(() => ending27ReadyFor28.value),
     ending27SeenIntro: computed(() => ending27SeenIntro.value),
+    forumHauntedAfter26: computed(() => forumHauntedAfter26.value),
+    markForumHauntedAfterNode26,
     unlockNode,
     unlockChatBlock,
     tryChatKeywordSearch,

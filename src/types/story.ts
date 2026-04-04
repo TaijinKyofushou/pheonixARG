@@ -5,6 +5,7 @@ export type PageKind =
   | 'schoolNotice'
   | 'loginModal'
   | 'forum'
+  | 'forumProfile'
   | 'forumLogin'
   | 'mysteryNote'
   | 'chatRoom'

@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { getFullPage } from '@/content/storyNodes'
+import { useGameStore } from '@/stores/game'
 import HomeView from '@/views/HomeView.vue'
 import InitialChatView from '@/views/InitialChatView.vue'
 import SchoolNoticeView from '@/views/SchoolNoticeView.vue'
 import LoginChatView from '@/views/LoginChatView.vue'
 import LoginForumView from '@/views/LoginForumView.vue'
 import ForumView from '@/views/ForumView.vue'
+import ForumNode26View from '@/views/ForumNode26View.vue'
+import ForumProfileView from '@/views/ForumProfileView.vue'
 import MysteryNoteView from '@/views/MysteryNoteView.vue'
 import ChatRoomView from '@/views/ChatRoomView.vue'
 import MedicalRecordView from '@/views/MedicalRecordView.vue'
@@ -23,6 +26,7 @@ const props = defineProps<{
 }>()
 
 const nid = computed(() => Number(props.id))
+const game = useGameStore()
 
 const node = computed(() => getFullPage(nid.value))
 
@@ -41,7 +45,9 @@ const comp = computed(() => {
     case 'forumLogin':
       return LoginForumView
     case 'forum':
-      return ForumView
+      return n.id === 26 ? ForumNode26View : ForumView
+    case 'forumProfile':
+      return ForumProfileView
     case 'mysteryNote':
       // node15 使用特殊的 403 Forbidden 风格页面
       if (n.id === 15) {
@@ -71,8 +77,8 @@ const comp = computed(() => {
 
 const forumVariant = computed(() => {
   const id = nid.value
-  if (id === 10) return 'guest' as const
-  if (id === 12) return 'd_posts' as const
+  if (id === 10) return game.forumLoggedIn ? ('d_posts' as const) : ('guest' as const)
+  if (id === 12 || id === 32) return 'd_posts' as const
   if (id === 26) return 'truth' as const
   return 'guest' as const
 })

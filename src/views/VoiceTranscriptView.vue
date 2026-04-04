@@ -45,7 +45,7 @@ const audioFiles = ref<AudioFile[]>([
 ])
 
 function back() {
-  router.push('/node/1')
+  router.push('/node/23')
 }
 
 function startConvert() {

@@ -314,18 +314,12 @@ onUnmounted(() => {
   resetEffects()
 })
 
-const showForumProfileButton = computed(() => game.forumLoggedIn)
-
 function goLogin() {
   router.push('/node/11')
 }
 
 function back() {
   router.push('/node/1')
-}
-
-function goProfile() {
-  router.push('/node/32')
 }
 
 function onForumSearch(kw: string) {

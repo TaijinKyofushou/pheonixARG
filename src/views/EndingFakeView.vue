@@ -39,7 +39,7 @@ function exit() {
       <p class="muted">（结局演出）</p>
     </template>
 
-    <MessageBlock :raw="props.node.content" />
+    <MessageBlock :raw="props.node.content ?? ''" />
   </ChatRoomLayout>
 </template>
 

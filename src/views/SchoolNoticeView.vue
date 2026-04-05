@@ -15,7 +15,7 @@ const articleTitle = computed(() => {
 })
 
 const paragraphs = computed(() =>
-  props.node.content
+  (props.node.content ?? '')
     .split(/\n\n+/)
     .map((s) => s.trim())
     .filter(Boolean),

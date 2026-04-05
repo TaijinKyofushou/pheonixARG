@@ -72,6 +72,9 @@ export interface FullPageNode extends StoryNodeBase {
   forumRequiresLogin?: boolean
   /** 论坛：结构化主帖（与 content 并存时优先渲染） */
   forumThread?: ForumThreadDef
+  /** 学校通告等：标题摘要 / 页面子类型文案 */
+  gist?: string
+  pageType?: string
   /** 页面正文（多行） */
   content?: string
 }

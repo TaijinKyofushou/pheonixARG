@@ -13,7 +13,7 @@ function back() {
 }
 
 // 将内容处理成适合竖排显示的格式
-const processedContent = props.node.content
+const processedContent = (props.node.content ?? '')
   .replace(/\n+/g, '\n')
   .trim()
 </script>

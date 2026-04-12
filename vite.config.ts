@@ -5,7 +5,6 @@ import { fileURLToPath, URL } from 'node:url'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  // 部署到 GitHub Pages 子路径时，将 base 改为 `/仓库名/`
   base: '/pheonixARG/',
   resolve: {
     alias: {

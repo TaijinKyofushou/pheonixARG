@@ -27,6 +27,7 @@ export function getInitialRoomContacts(user: ChatLoginUser): ContactDef[] {
       { id: 'main', label: '主频道' },
       { id: '23-ba', label: 'April' },
       { id: '23-bd', label: 'Deposit' },
+      { id: 'fileTransfer', label: '文件传输助手' },
     ]
   }
   return []

@@ -36,6 +36,7 @@ export const CHAT_ROOM_SEGMENT_KEYS: Record<number, string[]> = {
   8: ['8-ab', '8-ac'],
   19: ['19-cd', '19-ca'],
   23: ['23-ba', '23-bd'],
+  27: ['fileTransfer'],
 }
 
 /** 结局27前必须完成的节点 id（0..26） */

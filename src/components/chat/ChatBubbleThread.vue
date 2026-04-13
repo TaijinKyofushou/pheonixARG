@@ -129,8 +129,9 @@ watch(
           <div class="bubble" :class="bubbleClass(row.roleKey)">
             <template v-for="(part, pi) in row.parts" :key="pi">
               <span v-if="part.type === 'text'">{{ part.value }}</span>
+              <span v-else-if="part.type === 'linkStyle'" class="link-style">{{ part.value }}</span>
               <button
-                v-else-if="part.type === 'link' && part.linkId != null"
+                v-else-if="part.type === 'link'"
                 type="button"
                 class="link"
                 @click="emit('link', part.linkId)"
@@ -290,5 +291,13 @@ watch(
   text-decoration-color: #0b57d0;
   text-underline-offset: 1px;
   text-decoration-thickness: 1px;
+}
+.link-style {
+  color: #0b57d0;
+  text-decoration: underline;
+  text-decoration-color: #0b57d0;
+  text-underline-offset: 1px;
+  text-decoration-thickness: 1px;
+  cursor: default;
 }
 </style>

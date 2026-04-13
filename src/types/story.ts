@@ -16,6 +16,8 @@ export type PageKind =
   | 'endingFake'
   | 'endingTrue'
   | 'ending27'
+  /** 地方志 / 古籍摘录全页 */
+  | 'gazetteer'
 
 export interface StoryNodeBase {
   id: number

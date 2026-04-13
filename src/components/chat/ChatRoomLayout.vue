@@ -43,7 +43,7 @@ defineProps<{
           >
             <span class="im-attach" aria-hidden="true">📎</span>
             <span class="im-ph">{{ composerHint }}</span>
-            <span class="im-icons" aria-hidden="true">😊 ✈</span>
+            <span class="im-icons" aria-hidden="true">😊   ⏎</span>
           </div>
         </main>
       </div>

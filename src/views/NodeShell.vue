@@ -20,6 +20,7 @@ import EndingPuzzleView from '@/views/EndingPuzzleView.vue'
 import EndingFakeView from '@/views/EndingFakeView.vue'
 import EndingTrueView from '@/views/EndingTrueView.vue'
 import ForbiddenWarningView from '@/views/ForbiddenWarningView.vue'
+import GazetteerView from '@/views/GazetteerView.vue'
 
 const props = defineProps<{
   id: string
@@ -70,6 +71,8 @@ const comp = computed(() => {
       return EndingFakeView
     case 'endingTrue':
       return EndingTrueView
+    case 'gazetteer':
+      return GazetteerView
     default:
       return HomeView
   }

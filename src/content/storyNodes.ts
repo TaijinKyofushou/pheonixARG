@@ -1,16 +1,28 @@
 import type { ChatPanelDef, ChatRoomLayoutDef, FullPageNode, StoryNode } from '@/types/story'
 
-/** 解析正文中的 [[LINK:n]] 为可点击链接 */
-export function splitContentWithLinks(text: string): Array<{ type: 'text' | 'link'; value: string; linkId?: number }> {
-  const parts: Array<{ type: 'text' | 'link'; value: string; linkId?: number }> = []
-  const re = /\[\[LINK:(\d+)\]\]/g
+/** 正文片段：普通文本、可点击的 [[LINK:n]]、仅样式的 [[任意文案]] */
+export type StoryContentPart =
+  | { type: 'text'; value: string }
+  | { type: 'link'; value: string; linkId: number }
+  | { type: 'linkStyle'; value: string }
+
+/**
+ * 解析 [[LINK:n]] 为可点击链接；其余 [[...]] 为链接外观的纯展示（不跳转）。
+ */
+export function splitContentWithLinks(text: string): StoryContentPart[] {
+  const parts: StoryContentPart[] = []
+  const re = /\[\[(?:LINK:(\d+)|([^\]]+))\]\]/g
   let last = 0
   let m: RegExpExecArray | null
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) {
       parts.push({ type: 'text', value: text.slice(last, m.index) })
     }
-    parts.push({ type: 'link', value: `分享链接${m[1]}`, linkId: Number(m[1]) })
+    if (m[1] !== undefined) {
+      parts.push({ type: 'link', value: `分享链接${m[1]}`, linkId: Number(m[1]) })
+    } else {
+      parts.push({ type: 'linkStyle', value: m[2] ?? '' })
+    }
     last = m.index + m[0].length
   }
   if (last < text.length) {
@@ -416,6 +428,34 @@ Deposit：这名字听起来（很聪明/人很好/很亲切）的样子
     kind: 'forumProfile',
     content: '欢迎回来。你可以在「我的发帖」中查看与编辑对外可见的主题帖。',
     timeline: '2026年2月12日',
+  },
+  33: {
+    id: 33,
+    role: 'fullPage',
+    kind: 'gazetteer',
+    gist: '县志 · 民俗卷摘录',
+    timeline: '清乾隆年间',
+    content: `《渔阳地方志》
+
+清乾隆四十二年，顺天府渔阳县有乡绅周某，家资钜万，年四十始得一子，名麟，爱如掌珠。麟生而体弱，至秋忽染怪疾，高热不退，医皆束手。
+
+或言县北山中有野僧，枯槁如腊，双目眇其一，能行“爝火赓炁”之法，以一人之寿易他人之命，然代价甚巨。周某夜往谒之，泣涕求术。僧曰：“君欲救子，当自为薪。许愿之后，君之子得生，而君之阳寿当损。此法逆天，一用之后，因果已结，不可复解。若再有他人以此术及君家，则环将成矣。”周某但求眼前，唯唯应诺。遂焚黄纸，书麟名及所愿。是夜，麟热退，安然入睡。然周某自此日渐羸弱，咳血不止。
+
+麟既长，年十五，见父病笃，心如刀绞。然其母某氏，素康健，忽于岁末染疾，卧床不起。医云风寒入骨，恐难愈。麟大恸，念父已为已病，母又遭此厄，乃密往山中寻僧。
+
+僧见之，叹曰：“子来何为？”麟跪曰：“父以命救我，母今病危，愿行其术，以我之寿易母之安。”僧闭目良久，曰：“汝父已为爝者，汝若再为爝者，则双环相扣，业果如锁。然环尚未全，犹可解。若再添一环，则三环闭合，无可救矣。”麟泣曰：“母恩难报，虽死不悔。”僧遂如其愿。是夜，某氏热退，精神顿复。然麟自此面如金纸，卧床不起。
+
+某氏既愈，见夫咳血、子垂危，皆因己身而起，痛不欲生。复闻麟为救己而行术，乃仰天泣曰：“夫为子，子为母，皆因我故。今当以我之命，换夫与子皆全。”遂不顾病体，强往山中寻僧。
+
+僧见之，长叹一声，曰：“三环闭合，业果已成。环内之人，自相为薪。薪尽火灭，形神俱陨。汝今虽欲行术，然环已成，术不得行，反促其祸矣。”某氏执意焚符，符未及燃，自化为灰。
+
+是夜，宅中忽闻异响，烛火自青转绿，空中有人语，其声如破锣：“爝火三传，业环已成。环内之人，自相为薪。薪尽火灭，形神俱陨。”
+
+言毕，地底腾起青焰，不烧屋宇，专灼人身。周某见麟在火中挣扎，欲救之，手触其躯，如抚灰烬，顷刻散落。麟呼“父”，声未绝，已化黑烟。某氏亦在火中，向周某伸手，未及触，已作飞灰。周某仰天大笑，笑毕，亦化作飞灰。仆婢数十人，无一幸免。
+
+翌日，邻里见周宅夷为平地，唯余一石碑，上以朱砂书八字：“形神俱灭，世不存焉。”叩之，声如败木。
+
+碑阴有细字，乃一行小楷：“环中之人，不可自解。因果相衔，如锁连环。一锁既合，万劫不开。”`,
   },
 }
 
@@ -872,7 +912,7 @@ Collide：你往上翻翻聊天记录呢`,
       {
         id: '23-ba',
         label: 'April',
-        timeline: '2026年3月25日 - 2026年4月3日',
+        timeline: '',
         segments: [
           {
             timeline: '2026年3月25日',
@@ -960,7 +1000,7 @@ Bell：能不能先报个平安TT`,
           {
             timeline: '2025年12月22日',
             content: `文件传输助手：现在开始你可以和“文件传输助手”聊天了，文件、文字、链接均可发送。
-            Bell：[[北京市海淀区北三环中路海淀文教园C座209]]
+            Bell：[[📍北京市海淀区北三环中路海淀文教园C座209]]
             Bell：15:00-17:00
             Bell：提醒A队一定准时去复诊`,
           },
@@ -974,15 +1014,15 @@ Bell： 说不上来`,
           },
           {
             timeline: '2026年1月12日',
-            content: `Bell：[[二十多岁就开始健忘正常吗]]
-            Bell：[[记忆力下降，多半与这6个原因有关！]]
-            Bell：[[为什么记忆力越来越差？4个方法帮你提升记忆力]]`,
+            content: `Bell：[[🌐二十多岁就开始健忘正常吗]]
+            Bell：[[🌐记忆力下降，多半与这6个原因有关！]]
+            Bell：[[🌐为什么记忆力越来越差？4个方法帮你提升记忆力]]`,
           },
           {
             timeline: '2026年2月10日',
-            content: `Bell：[[幻觉的症状学特征、精神病理学分类、发生机制及临床意义]]
-            Bell：[[全身突然起烧灼感要警惕|百度健康·医学科普]]
-            Bell：[[感觉发烧但是体温正常浑身难受-120问医生]]
+            content: `Bell：[[🌐幻觉的症状学特征、精神病理学分类、发生机制及临床意义]]
+            Bell：[[🌐全身突然起烧灼感要警惕|百度健康·医学科普]]
+            Bell：[[🌐感觉发烧但是体温正常浑身难受-120问医生]]
             Bell：[[北京预约挂号统一平台官网入口 - 北京本地宝]]`,
           },
           {
@@ -996,7 +1036,7 @@ Bell： 说不上来`,
           },
           {
             timeline: '2026年2月20日',
-            content: `Bell： [文件：县志扫描件_第204页.jpg]
+            content: `Bell： [[县志扫描件_204.jpg]]
             Bell：“以薪火相承，然业果循环，环成则薪尽”
             Bell：完全看不懂`,
           },

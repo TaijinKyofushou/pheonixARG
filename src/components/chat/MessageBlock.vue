@@ -27,8 +27,9 @@ function renderLine(line: string) {
     <p v-for="(line, idx) in lines" :key="idx" class="line">
       <template v-for="(part, j) in renderLine(line)" :key="j">
         <span v-if="part.type === 'text'">{{ part.value }}</span>
+        <span v-else-if="part.type === 'linkStyle'" class="link-style">{{ part.value }}</span>
         <button
-          v-else-if="part.type === 'link' && part.linkId != null"
+          v-else-if="part.type === 'link'"
           type="button"
           class="link-btn"
           @click="emit('link', part.linkId)"
@@ -56,6 +57,12 @@ function renderLine(line: string) {
   color: var(--color-link);
   text-decoration: underline;
   cursor: pointer;
+  font: inherit;
+}
+.link-style {
+  color: var(--color-link);
+  text-decoration: underline;
+  cursor: default;
   font: inherit;
 }
 </style>

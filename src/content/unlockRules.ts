@@ -26,6 +26,7 @@ export const LINK_ID_TO_NODE_ID: Record<number, number> = {
   4: 21,
   5: 24,
   6: 26,
+  7: 33,
 }
 
 /** 仅聊天块 id，合并到 /node/1 展示 */

@@ -1,7 +1,7 @@
-import { splitContentWithLinks } from '@/content/storyNodes'
+import { splitContentWithLinks, type StoryContentPart } from '@/content/storyNodes'
 import type { ChatLoginUser } from '@/stores/game'
 
-export type BubblePart = { type: 'text' | 'link'; value: string; linkId?: number }
+export type BubblePart = StoryContentPart
 
 /** 气泡配色 */
 export type SpeakerRoleKey = 'april' | 'bell' | 'collide' | 'deposit' | 'other'

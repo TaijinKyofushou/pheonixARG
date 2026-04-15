@@ -91,7 +91,27 @@ function closeTips() {
           <h2 class="section-title">提示</h2>
           <button type="button" class="ghost" @click="closeTips">关闭</button>
         </header>
-        <div class="tips-body"></div>
+        <div class="tips-body">
+          <p class="p">1：计组教授的名字是什么  <span class="keyword">黄文礼</span></p>
+          <p class="p">2：出现了一个名字  <span class="keyword">张杨</span></p>
+          <p class="p">3：Bell的竞赛结果怎么样了 <span class="keyword">美赛</span></p>
+          <p class="p">4：出现了特定地址 <span class="keyword">教三地下室</span></p>
+          <p class="p">5：试过登录了吗 <span class="keyword">右上角登录April的账号</span></p>
+          <p class="p">6：忘记密码可以查看密保 <span class="keyword">66605088</span></p>
+          <p class="p">8：特殊的名词出现了 <span class="keyword">凤凰还愿</span></p>
+          <p class="p">9：论坛也可以登录 <span class="keyword">右上角点击登录</span></p>
+          <p class="p">10：是不是有一个人一直没出现 <span class="keyword">账号：Deposit 密码：Deposit</span></p>
+          <p class="p">11：“我”的发帖里症状原因是什么 <span class="keyword">薪火焚身</span></p>
+          <p class="p">12：难道你不想再看一章吗 <span class="keyword">玄坛秘笺</span></p>
+          <p class="p">13：出现了奇怪的名词 <span class="keyword">爝火赓炁</span></p>
+          <p class="p">14：（较难）最下方有一行小字 <span class="keyword">重明龛</span></p>
+          <p class="p">15：在聊天室搜索过吗 <span class="keyword">重明龛</span></p>
+          <p class="p">16：一个很特殊的日期 <span class="keyword">登录Collide账号，密码为20100807</span></p>
+          <p class="p">17：Collide在哪里 <span class="keyword">北医三院</span></p>
+          <p class="p">18：（较难）电子病历是用谁的账号打开的  <span class="keyword">Bell的所有账号都是同一个密码</span> <span class="keyword">网页url可以看到登录信息</span> <span class="keyword">GUtoA7sX</span></p>
+          <p class="p">19：谜语人 <span class="keyword">不是谜语人，是谜语人</span></p>
+          <p class="p">20：谜语人 <span class="keyword">不是谜语人，是谜语人</span></p>
+        </div>
       </section>
     </div>
   </div>
@@ -193,8 +213,33 @@ function closeTips() {
 }
 .tips-body {
   min-height: 180px;
+  max-height: min(62vh, 520px);
+  overflow-y: auto;
   border: 1px dashed var(--color-border);
   border-radius: 8px;
   margin-top: 0.8rem;
+  padding: 0.8rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.24) transparent;
+}
+.tips-body::-webkit-scrollbar {
+  width: 8px;
+}
+.tips-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tips-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+}
+.tips-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.38);
+}
+.keyword {
+  display: inline-block;
+  padding: 0 0.2em;
+  border-radius: 4px;
+  background: #000;
+  color: #000;
 }
 </style>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGameStore } from '@/stores/game'
 
 const router = useRouter()
 const game = useGameStore()
+const showTipsModal = ref(false)
 
 function start() {
   router.push('/node/1')
@@ -12,24 +14,86 @@ function start() {
 function reset() {
   if (confirm('确定清空本地进度？')) game.resetProgress()
 }
+
+function openTips() {
+  showTipsModal.value = true
+}
+
+function closeTips() {
+  showTipsModal.value = false
+}
 </script>
 
 <template>
   <div class="wrap">
     <header class="hero">
-      <h1 class="title">凤凰还愿</h1>
-      <p class="sub">关键词搜索 · 账号登录 · 静态解密 AVG</p>
+      <h1 class="title">北京市某高校大学生失踪事件</h1>
+      <!-- <p class="sub">Author: 青天浩渺白日灼灼</p> -->
     </header>
+
     <section class="card">
       <p class="p">
-        游戏须知：你扮演一名大学生，为提交计组作业而寻找助教与教授联系方式，误入一段被截获的聊天记录。通过搜索关键词、登录账号与点击链接，拼合 A、B、C、D
-        四人的因果循环。
+        你在DDL前四个小时敲完了计组大作业的最后一行注释。
       </p>
+      <p class="p">
+        屏幕右下角的时间显示03:47，寝室里只有笔记本的风扇声在嗡嗡作响。你把压缩包拖进邮箱，在收件人那一栏敲下“deposit@stu.edu.cn”——这是开学时教务系统里写的助教邮箱。
+      </p>
+      <p class="p">
+        点击发送。
+      </p>
+      <p class="p">
+        “收件人地址不存在，请核对后重试。”
+      </p>
+      <p class="p">
+        你愣了一下，又发了一遍。同样的红字。
+      </p>
+      <p class="p">
+        切回教务系统，找到课程主页。助教那一栏是空的。你翻了课程群、翻了表白墙、翻了所有可能存在助教联系方式的地方，结果是统一的空白。
+      </p>
+      <p class="p">
+        这门课没有助教。
+      </p>
+      <p class="p">
+        屋漏偏逢连夜雨，交不上作业计组绝对会挂掉。你一咬牙，决定实在不行就去加任课教授黄文礼的微信。但鼠标滑过学校聊天室入口的时候，你停了一下。
+      </p>
+      <p class="p">
+        聊天室是学校内部的老系统，已经很久没人维护了。听说只要破解了搜索功能，就能查到所有注册学生的公开信息和发言记录——当然也包括可能存在的计组助教。
+        你试了几次，用简单的注入绕过了搜索限制。简直轻松到了诡异的地步。
+      </p>
+      <p class="p">总而言之，为了交上计组大作业，为了你的绩点，你决心在早八之前，在聊天室中找到神秘消失的助教！</p>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">游戏须知</h2>
+      <p class="p">
+        本游戏为ARG文字解谜游戏，你需要在聊天室中寻找合适的关键词进行搜索，解锁对话，还原故事真相。
+      </p>
+      <p class="p">
+        游戏流程大致为：登录聊天室 → 阅读内容 → 搜索关键词 → 解锁新页面。没有需要局外搜索的线索，没有需要查看源码的谜题，也没有需要破解的加密密码。
+      </p>
+      <p class="p">
+        有些页面可能只会出现一次，因此强烈建议使用excel或备忘录记录关键信息，避免遗漏线索。
+      </p>
+      <p class="p">游戏时间约为1小时。希望你玩得开心！</p>
+      <p class="p">tips：刚进入页面不知道搜什么？试试搜一下计组教授的名字吧！</p>
       <div class="actions">
-        <button type="button" class="primary" @click="start">进入聊天室</button>
-        <button type="button" class="ghost" @click="reset">重置进度</button>
+        <div class="actions-left">
+          <button type="button" class="primary" @click="start">进入聊天室</button>
+          <button type="button" class="ghost" @click="reset">重置进度</button>
+        </div>
+        <button type="button" class="tips-btn" @click="openTips">提示</button>
       </div>
     </section>
+
+    <div v-if="showTipsModal" class="tips-mask" @click.self="closeTips">
+      <section class="tips-modal">
+        <header class="tips-head">
+          <h2 class="section-title">提示</h2>
+          <button type="button" class="ghost" @click="closeTips">关闭</button>
+        </header>
+        <div class="tips-body"></div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -56,12 +120,24 @@ function reset() {
   border-radius: 12px;
   padding: 1rem 1.1rem;
   background: var(--color-panel);
+  margin-bottom: 1rem;
+}
+.section-title {
+  margin: 0 0 0.8rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
 }
 .p {
   line-height: 1.65;
   margin: 0 0 1rem;
 }
 .actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+.actions-left {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
@@ -81,5 +157,44 @@ function reset() {
   background: transparent;
   color: inherit;
   cursor: pointer;
+}
+.tips-btn {
+  margin-left: auto;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #86d1af;
+  background: rgb(39, 44, 49);
+  color: #86d1af;;
+  cursor: pointer;
+}
+.tips-btn:hover {
+  border-color: #64b98f;
+  background: rgb(32, 36, 41);
+}
+.tips-mask {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+.tips-modal {
+  width: min(720px, 100%);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  background: var(--color-panel);
+}
+.tips-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.tips-body {
+  min-height: 180px;
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+  margin-top: 0.8rem;
 }
 </style>

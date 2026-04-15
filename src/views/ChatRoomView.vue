@@ -92,6 +92,15 @@ const paneHead = computed(() => {
   if (panel.value === 'main') return `主频道`
   return contacts.value.find((c) => c.id === panel.value)?.label ?? '私聊'
 })
+
+function isFileTransferContact(id: string, label: string): boolean {
+  return id === 'fileTransfer' || label === '文件传输助手'
+}
+
+function contactAvatarText(id: string, label: string): string {
+  if (isFileTransferContact(id, label)) return '传'
+  return label.slice(0, 1)
+}
 </script>
 
 <template>
@@ -119,8 +128,14 @@ const paneHead = computed(() => {
         :class="{ active: panel === c.id }"
         @click="selectContact(c.id)"
       >
-        <div class="contact-av" :class="{ on: panel === c.id }">
-          {{ c.label.slice(0, 1) }}
+        <div
+          class="contact-av"
+          :class="{
+            on: panel === c.id,
+            'contact-av--file-transfer': isFileTransferContact(c.id, c.label),
+          }"
+        >
+          {{ contactAvatarText(c.id, c.label) }}
         </div>
         <div class="contact-meta">
           <span class="contact-name">{{ c.label }}</span>
@@ -186,6 +201,10 @@ const paneHead = computed(() => {
 .contact-av.on {
   background: rgba(255, 255, 255, 0.25);
   color: #fff;
+}
+.contact-av--file-transfer {
+  background: #c9dfd6;
+  color: #1e4f3d;
 }
 .contact-meta {
   min-width: 0;

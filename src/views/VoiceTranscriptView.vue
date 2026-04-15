@@ -81,7 +81,7 @@ const audioFiles = ref<AudioFile[]>([
   {
     id: 1,
     name: '2026年3月27日 下午4点31分.wav',
-    duration: '00:08:16.355',
+    duration: '00:23:16.355',
     status: 'pending',
     result: ''
   }

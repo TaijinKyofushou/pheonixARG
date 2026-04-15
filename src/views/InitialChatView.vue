@@ -83,6 +83,15 @@ const paneHead = computed(() => {
   return contacts.value.find((c) => c.id === selectedContactId.value)?.label ?? '私聊'
 })
 
+function isFileTransferContact(id: string, label: string): boolean {
+  return id === 'fileTransfer' || label === '文件传输助手'
+}
+
+function contactAvatarText(id: string, label: string): string {
+  if (isFileTransferContact(id, label)) return '传'
+  return label.slice(0, 1)
+}
+
 function onSearch(kw: string) {
   const ok = game.tryChatKeywordSearch(kw)
   if (ok) {
@@ -151,9 +160,12 @@ function selectContact(id: string) {
       >
         <div
           class="contact-av"
-          :class="{ on: selectedContactId === c.id }"
+          :class="{
+            on: selectedContactId === c.id,
+            'contact-av--file-transfer': isFileTransferContact(c.id, c.label),
+          }"
         >
-          {{ c.label.slice(0, 1) }}
+          {{ contactAvatarText(c.id, c.label) }}
         </div>
         <div class="contact-meta">
           <span class="contact-name">{{ c.label }}</span>
@@ -237,6 +249,10 @@ function selectContact(id: string) {
 .contact-av.on {
   background: rgba(255, 255, 255, 0.25);
   color: #fff;
+}
+.contact-av--file-transfer {
+  background: #c9dfd6;
+  color: #1e4f3d;
 }
 .contact-meta {
   min-width: 0;

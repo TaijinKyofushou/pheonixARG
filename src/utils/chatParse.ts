@@ -4,7 +4,7 @@ import type { ChatLoginUser } from '@/stores/game'
 export type BubblePart = StoryContentPart
 
 /** 气泡配色 */
-export type SpeakerRoleKey = 'april' | 'bell' | 'collide' | 'deposit' | 'other'
+export type SpeakerRoleKey = 'april' | 'bell' | 'collide' | 'deposit' | 'fileTransfer' | 'other'
 
 export interface BubbleRow {
   speaker: string
@@ -15,18 +15,18 @@ export interface BubbleRow {
 
 /**
  * 将发言者归一为 april/bell/collide/deposit/other。
- * 支持新名称 April/Bell/Collide/Deposit 以及旧单字母 A/B/C/D。
- * 注：使用完整名称匹配，不依赖首字母，方便后续修改角色名。
+ * 仅支持完整名称匹配，不兼容单字母别名。
  */
 export function normalizeSpeakerRole(speaker: string): SpeakerRoleKey {
   const t = speaker.trim()
   if (!t) return 'other'
-  // 移除问号后完整匹配，支持后续修改名称而不受首字母限制
+  if (t === '文件传输助手') return 'fileTransfer'
+  // 移除问号后做完整匹配
   const s = t.replace(/？/g, '').toLowerCase()
-  if (s === 'april' || s === 'a') return 'april'
-  if (s === 'bell' || s === 'b') return 'bell'
-  if (s === 'collide' || s === 'c') return 'collide'
-  if (s === 'deposit' || s === 'd') return 'deposit'
+  if (s === 'april') return 'april'
+  if (s === 'bell') return 'bell'
+  if (s === 'collide') return 'collide'
+  if (s === 'deposit') return 'deposit'
   return 'other'
 }
 

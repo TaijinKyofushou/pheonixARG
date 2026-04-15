@@ -27,9 +27,10 @@ function forgot() {
     return
   }
   const raw = acc.toLowerCase()
-  if (raw.startsWith('a') || raw === 'april') err.value = '密保：教务处电话'
-  else if (raw.startsWith('b') || raw === 'bell') err.value = '密保：统一密码'
-  else if (raw.startsWith('c') || raw === 'collide') err.value = '密保：那一天'
+  if (raw === 'april') err.value = '密保：教务处电话'
+  else if (raw === 'bell') err.value = '密保：统一密码'
+  else if (raw === 'collide') err.value = '密保：那一天'
+  else if (raw === 'deposit') err.value = '该账号仅支持论坛登录'
   else err.value = '账号不存在'
 }
 
@@ -51,9 +52,9 @@ function submit() {
   }
   const acc = account.value.trim()
   const raw = acc.toLowerCase()
-  if (raw.startsWith('a') || raw === 'april') {router.push('/node/8'); alert('欢迎回来，April！')}
-  else if (raw.startsWith('c') || raw === 'collide') {router.push('/node/19'); alert('欢迎回来，Collide！')}
-  else if (raw.startsWith('b') || raw === 'bell') {router.push('/node/23'); alert('欢迎回来，Bell！')}
+  if (raw === 'april') {router.push('/node/8'); alert('欢迎回来，April！')}
+  else if (raw === 'collide') {router.push('/node/19'); alert('欢迎回来，Collide！')}
+  else if (raw === 'bell') {router.push('/node/23'); alert('欢迎回来，Bell！')}
 }
 </script>
 

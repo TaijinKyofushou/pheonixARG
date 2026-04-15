@@ -33,6 +33,7 @@ const prepared = computed(() =>
 function avatarLetter(speaker: string): string {
   const s = speaker.trim()
   if (!s) return '?'
+  if (s === '文件传输助手') return '传'
   return s.replace(/？/g, '?').slice(0, 1).toUpperCase()
 }
 
@@ -217,6 +218,9 @@ watch(
 .avatar--deposit {
   background: #d4c4a8;
 }
+.avatar--fileTransfer {
+  background: #c9dfd6;
+}
 .avatar--other {
   background: #e8e8e8;
 }
@@ -276,6 +280,9 @@ watch(
 }
 .bubble--deposit {
   background: #e8ddcf;
+}
+.bubble--fileTransfer {
+  background: #e1f0ea;
 }
 .bubble--other {
   background: #f4f4f4

@@ -160,7 +160,8 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function loginForumDeposit(account: string, password: string): 'ok' | 'no_account' | 'bad_password' {
-    if (account !== 'Deposit') return 'no_account'
+    const acc = account.trim().toLowerCase()
+    if (acc !== 'deposit') return 'no_account'
     if (password !== 'Deposit') return 'bad_password'
     forumLoggedIn.value = true
     unlockNode(32)
@@ -170,18 +171,17 @@ export const useGameStore = defineStore('game', () => {
 
   /**
    * 聊天室登录：仅根据账号 + 密码校验（与当前从哪个登录页进入无关）。
-   * 支持新名称 April/Bell/Collide 以及兼容旧单字母 A/B/C。
+   * 账号需完整匹配 april/bell/collide（deposit 仅可登录论坛）。
    */
   function loginChat(account: string, password: string): 'ok' | 'no_account' | 'bad_password' {
     const pwd = password.trim()
-    const raw = account.trim()
-    const acc = raw.length ? raw[0]!.toUpperCase() : ''
+    const acc = account.trim().toLowerCase()
     // Deposit 只能登录论坛，不能登录聊天室
-    if (acc === 'D' || raw.toLowerCase().startsWith('Deposit')) return 'no_account'
-    // 检查是否是有效的账号（支持新名称和旧单字母）
-    const isApril = acc === 'A' || raw.startsWith('april')
-    const isBell = acc === 'B' || raw.startsWith('bell')
-    const isCollide = acc === 'C' || raw.startsWith('collide')
+    if (acc === 'deposit') return 'no_account'
+    // 检查是否是有效的账号（仅支持完整账号名）
+    const isApril = acc === 'april'
+    const isBell = acc === 'bell'
+    const isCollide = acc === 'collide'
     if (!isApril && !isBell && !isCollide) return 'no_account'
 
     if (isApril) {

@@ -31,6 +31,19 @@ onMounted(() => {
 })
 
 function back() {
+  const lastPath = window.history.state?.back
+  if (lastPath === '/node/19') {
+    router.push('/node/19')
+    return
+  }
+  if (lastPath === '/node/23') {
+    router.push('/node/23')
+    return
+  }
+  if (lastPath === '/node/1') {
+    router.push('/node/1')
+    return
+  }
   router.push('/node/1')
 }
 </script>

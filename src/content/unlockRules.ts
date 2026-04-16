@@ -7,7 +7,7 @@ export const CHAT_KEYWORD_TO_BLOCK_ID: Record<string, number> = {
   凤凰还愿: 9,
   重明龛: 16,
   北医三院: 20,
-  县志: 25,
+  '破局之机，惟环外也': 25,
 }
 
 /** 论坛内搜索（登录 D 后）-> 解锁的神秘笔记 id */

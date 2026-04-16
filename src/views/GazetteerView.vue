@@ -45,7 +45,7 @@ function back() {
       </article>
 
       <footer class="footer-ornament" aria-hidden="true">
-        <span class="seal">志</span>
+        <span class="seal">破局之机，惟环外也</span>
       </footer>
     </div>
 
@@ -54,7 +54,7 @@ function back() {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&family=Noto+Serif+SC:wght@400;600;700&display=swap');
 
 .gazetteer {
   --ink: #1a1510;
@@ -165,27 +165,31 @@ function back() {
 }
 
 .footer-ornament {
-  margin-top: 2rem;
+  margin-top: 0rem;
+  padding: 0.2rem 0 2rem;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  min-height: 3rem;
+  overflow: visible;
   position: relative;
   z-index: 1;
 }
 
 .seal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid var(--vermilion);
+  display: inline-block;
+  white-space: nowrap;
+  font-family: 'Liu Jian Mao Cao', 'STKaiti', cursive;
+  font-size: clamp(1.15rem, 3.2vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1;
   color: var(--vermilion);
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  opacity: 0.75;
-  transform: rotate(-8deg);
-  border-radius: 4px;
+  opacity: 0.88;
+  border-bottom: 1px solid rgba(139, 46, 46, 0.35);
+  padding-bottom: 0.15em;
+  transform: rotate(-11deg);
+  transform-origin: 100% 50%;
 }
 
 .back {

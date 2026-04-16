@@ -33,7 +33,7 @@ function closeTips() {
 
     <section class="card">
       <p class="p">
-        你在DDL前四个小时敲完了计组大作业的最后一行注释。
+        终于，你在DDL前四个小时敲完了计组大作业的最后一行注释。
       </p>
       <p class="p">
         屏幕右下角的时间显示03:47，寝室里只有笔记本的风扇声在嗡嗡作响。你把压缩包拖进邮箱，在收件人那一栏敲下“deposit@stu.edu.cn”——这是开学时教务系统里写的助教邮箱。
@@ -67,6 +67,9 @@ function closeTips() {
       <h2 class="section-title">游戏须知</h2>
       <p class="p">
         本游戏为ARG文字解谜游戏，你需要在聊天室中寻找合适的关键词进行搜索，解锁对话，还原故事真相。
+      </p>
+      <p class="p">
+        注意，游戏中可能有轻度的恐怖要素和惊吓环节。
       </p>
       <p class="p">
         游戏流程大致为：登录聊天室 → 阅读内容 → 搜索关键词 → 解锁新页面。没有需要局外搜索的线索，没有需要查看源码的谜题，也没有需要破解的加密密码。
@@ -109,7 +112,7 @@ function closeTips() {
           <p class="p">16：一个很特殊的日期 <span class="keyword">登录Collide账号，密码为20100807</span></p>
           <p class="p">17：Collide在哪里 <span class="keyword">北医三院</span></p>
           <p class="p">18：（较难）电子病历是用谁的账号打开的  <span class="keyword">Bell的所有账号都是同一个密码</span> <span class="keyword">网页url可以看到登录信息</span> <span class="keyword">GUtoA7sX</span></p>
-          <p class="p">19：谜语人 <span class="keyword">不是谜语人，是谜语人</span></p>
+          <p class="p">19：县志上不知谁作了批注 <span class="keyword">破局之机，惟环外也</span></p>
           <p class="p">20：谜语人 <span class="keyword">不是谜语人，是谜语人</span></p>
         </div>
       </section>

@@ -111,26 +111,18 @@ watch(
         >{{ seg.timeline }}</span>
         <span class="time-line" />
       </div>
-      <div
-        v-for="(row, ri) in seg.rows"
-        :key="`${si}-${ri}`"
-        class="row"
-        :class="row.side === 'right' ? 'row--out' : 'row--in'"
-      >
-        <div
-          v-if="row.side === 'left' && shouldShowAvatar(row.roleKey)"
-          class="avatar"
-          :class="avatarClass(row.roleKey)"
-        >
-          {{ avatarLetter(row.speaker) }}
-        </div>
-        <div v-else-if="row.side === 'left'" class="avatar-placeholder" />
-        <div class="bubble-wrap">
-          <div class="name">{{ row.speaker }}</div>
-          <div class="bubble" :class="bubbleClass(row.roleKey)">
+      <template v-for="(row, ri) in seg.rows" :key="`${si}-${ri}`">
+        <div v-if="row.kind === 'system'" class="row row--system">
+          <p class="system-hint">
             <template v-for="(part, pi) in row.parts" :key="pi">
               <span v-if="part.type === 'text'">{{ part.value }}</span>
-              <span v-else-if="part.type === 'linkStyle'" class="link-style">{{ part.value }}</span>
+              <a
+                v-else-if="part.type === 'external'"
+                class="link link-external"
+                :href="part.href"
+                target="_blank"
+                rel="noopener noreferrer"
+              >{{ part.value }}</a>
               <button
                 v-else-if="part.type === 'link'"
                 type="button"
@@ -140,17 +132,54 @@ watch(
                 {{ part.value }}
               </button>
             </template>
-          </div>
+          </p>
         </div>
         <div
-          v-if="row.side === 'right' && shouldShowAvatar(row.roleKey)"
-          class="avatar avatar--right"
-          :class="avatarClass(row.roleKey)"
+          v-else
+          class="row"
+          :class="row.side === 'right' ? 'row--out' : 'row--in'"
         >
-          {{ avatarLetter(row.speaker) }}
+          <div
+            v-if="row.side === 'left' && shouldShowAvatar(row.roleKey)"
+            class="avatar"
+            :class="avatarClass(row.roleKey)"
+          >
+            {{ avatarLetter(row.speaker) }}
+          </div>
+          <div v-else-if="row.side === 'left'" class="avatar-placeholder" />
+          <div class="bubble-wrap">
+            <div class="name">{{ row.speaker }}</div>
+            <div class="bubble" :class="bubbleClass(row.roleKey)">
+              <template v-for="(part, pi) in row.parts" :key="pi">
+                <span v-if="part.type === 'text'">{{ part.value }}</span>
+                <a
+                  v-else-if="part.type === 'external'"
+                  class="link link-external"
+                  :href="part.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >{{ part.value }}</a>
+                <button
+                  v-else-if="part.type === 'link'"
+                  type="button"
+                  class="link"
+                  @click="emit('link', part.linkId)"
+                >
+                  {{ part.value }}
+                </button>
+              </template>
+            </div>
+          </div>
+          <div
+            v-if="row.side === 'right' && shouldShowAvatar(row.roleKey)"
+            class="avatar avatar--right"
+            :class="avatarClass(row.roleKey)"
+          >
+            {{ avatarLetter(row.speaker) }}
+          </div>
+          <div v-else-if="row.side === 'right'" class="avatar-placeholder avatar--right" />
         </div>
-        <div v-else-if="row.side === 'right'" class="avatar-placeholder avatar--right" />
-      </div>
+      </template>
     </template>
   </div>
 </template>
@@ -193,6 +222,18 @@ watch(
 }
 .row--out {
   justify-content: flex-end;
+}
+.row--system {
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+.system-hint {
+  margin: 0;
+  max-width: 92%;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #8b9099;
 }
 .avatar {
   flex-shrink: 0;
@@ -299,12 +340,7 @@ watch(
   text-underline-offset: 1px;
   text-decoration-thickness: 1px;
 }
-.link-style {
-  color: #0b57d0;
-  text-decoration: underline;
-  text-decoration-color: #0b57d0;
-  text-underline-offset: 1px;
-  text-decoration-thickness: 1px;
-  cursor: default;
+.link-external {
+  display: inline;
 }
 </style>

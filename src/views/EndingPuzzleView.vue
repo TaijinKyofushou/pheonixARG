@@ -35,7 +35,7 @@ function ignite() {
       rows: rows.map((r) => ({ ...r })),
     })
     if (ok) {
-      router.push('/node/30')
+      router.push('/node/33')
     } else {
       blackout.value = false
       err.value = '仪式文字与业果记录不一致（请严格逐字匹配）。'

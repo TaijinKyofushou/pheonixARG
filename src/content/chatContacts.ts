@@ -18,7 +18,7 @@ export function getInitialRoomContacts(user: ChatLoginUser): ContactDef[] {
   if (user === 'collide') {
     return [
       { id: 'main', label: '主频道' },
-      { id: '19-cd', label: 'Deposit' },
+      { id: '19-cd', label: '锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛' },
       { id: '19-ca', label: 'April' },
     ]
   }
@@ -26,7 +26,7 @@ export function getInitialRoomContacts(user: ChatLoginUser): ContactDef[] {
     return [
       { id: 'main', label: '主频道' },
       { id: '23-ba', label: 'April' },
-      { id: '23-bd', label: 'Deposit' },
+      { id: '23-bd', label: '锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛' },
       { id: 'fileTransfer', label: '文件传输助手' },
     ]
   }

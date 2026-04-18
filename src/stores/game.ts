@@ -3,10 +3,9 @@ import { computed, ref, watch } from 'vue'
 import {
   CHAT_BLOCK_IDS,
   CHAT_KEYWORD_TO_BLOCK_ID,
-  CHAT_ROOM_SEGMENT_KEYS,
   FORUM_KEYWORD_TO_NODE_ID,
   LINK_ID_TO_NODE_ID,
-  REQUIRED_IDS_BEFORE_ENDING_27,
+  VIEWED_SEGMENT_ACADEMIC_PAPER_34,
 } from '@/content/unlockRules'
 import { isPuzzleStrictlyCorrect } from '@/content/puzzleAnswers'
 
@@ -31,7 +30,7 @@ interface PersistShape {
   chatLoginUser?: ChatLoginUser
   viewedSegments: string[]
   puzzleSolved: boolean
-  ending27SeenIntro: boolean
+  ending30SeenIntro: boolean
   /** 曾进入论坛真相帖 node26 后，论坛相关节点改道 node15 */
   forumHauntedAfter26?: boolean
 }
@@ -44,9 +43,9 @@ export const useGameStore = defineStore('game', () => {
   const chatLoginUser = ref<ChatLoginUser>('none')
   const viewedSegments = ref<Set<string>>(new Set())
   const puzzleSolved = ref(false)
-  /** 结局27：已与 A 对话完毕，可去地下室 */
-  const ending27ReadyFor28 = ref(false)
-  const ending27SeenIntro = ref(false)
+  /** node 30：已与 A 对话完毕，可去 node 31 叙事 */
+  const ending30ReadyFor31 = ref(false)
+  const ending30SeenIntro = ref(false)
   /** 进入 node26 后，node10/11/12/13/14 路由改至 node15 */
   const forumHauntedAfter26 = ref(false)
 
@@ -60,7 +59,7 @@ export const useGameStore = defineStore('game', () => {
       chatLoginUser: chatLoginUser.value,
       viewedSegments: [...viewedSegments.value],
       puzzleSolved: puzzleSolved.value,
-      ending27SeenIntro: ending27SeenIntro.value,
+      ending30SeenIntro: ending30SeenIntro.value,
       forumHauntedAfter26: forumHauntedAfter26.value,
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(p))
@@ -70,6 +69,7 @@ export const useGameStore = defineStore('game', () => {
     const p = loadPersisted()
     if (!p) {
       hydrated.value = true
+      maybeUnlockEnding30()
       return
     }
     if (p.unlockedNodeIds?.length) unlockedNodeIds.value = new Set(p.unlockedNodeIds)
@@ -80,9 +80,10 @@ export const useGameStore = defineStore('game', () => {
     }
     if (p.viewedSegments?.length) viewedSegments.value = new Set(p.viewedSegments)
     if (typeof p.puzzleSolved === 'boolean') puzzleSolved.value = p.puzzleSolved
-    if (typeof p.ending27SeenIntro === 'boolean') ending27SeenIntro.value = p.ending27SeenIntro
+    if (typeof p.ending30SeenIntro === 'boolean') ending30SeenIntro.value = p.ending30SeenIntro
     if (typeof p.forumHauntedAfter26 === 'boolean') forumHauntedAfter26.value = p.forumHauntedAfter26
     hydrated.value = true
+    maybeUnlockEnding30()
   }
 
   watch(
@@ -93,7 +94,7 @@ export const useGameStore = defineStore('game', () => {
       chatLoginUser,
       viewedSegments,
       puzzleSolved,
-      ending27SeenIntro,
+      ending30SeenIntro,
       forumHauntedAfter26,
     ],
     () => {
@@ -118,7 +119,7 @@ export const useGameStore = defineStore('game', () => {
     if (id === 21) {
       unlockedNodeIds.value = new Set(unlockedNodeIds.value).add(22)
     }
-    maybeUnlockEnding27()
+    maybeUnlockEnding30()
   }
 
   function unlockChatBlock(blockId: number) {
@@ -127,7 +128,7 @@ export const useGameStore = defineStore('game', () => {
       chatBlockIds.value = new Set(chatBlockIds.value).add(blockId)
     }
     unlockNode(blockId)
-    maybeUnlockEnding27()
+    maybeUnlockEnding30()
   }
 
   function tryChatKeywordSearch(raw: string): boolean {
@@ -156,7 +157,7 @@ export const useGameStore = defineStore('game', () => {
   function markSegment(segmentKey: string) {
     if (viewedSegments.value.has(segmentKey)) return
     viewedSegments.value = new Set(viewedSegments.value).add(segmentKey)
-    maybeUnlockEnding27()
+    maybeUnlockEnding30()
   }
 
   function loginForumDeposit(account: string, password: string): 'ok' | 'no_account' | 'bad_password' {
@@ -164,7 +165,7 @@ export const useGameStore = defineStore('game', () => {
     if (acc !== 'deposit') return 'no_account'
     if (password !== 'Deposit') return 'bad_password'
     forumLoggedIn.value = true
-    unlockNode(32)
+    unlockNode(27)
     unlockNode(12)
     return 'ok'
   }
@@ -214,44 +215,38 @@ export const useGameStore = defineStore('game', () => {
     const ok = isPuzzleStrictlyCorrect(input)
     if (ok) {
       puzzleSolved.value = true
-      unlockNode(30)
+      unlockNode(33)
     }
     return ok
   }
 
-  function finishEnding27Messages() {
-    ending27ReadyFor28.value = true
+  function finishEnding30Messages() {
+    ending30ReadyFor31.value = true
   }
 
-  /** 在结局27中选择「去教三地下室」 */
-  function unlockNarrative28() {
-    unlockNode(28)
-  }
-
-  /** 叙事页进入谜题 */
-  function unlockPuzzle29() {
-    unlockNode(29)
-  }
-
-  /** 假结局点击红色退出 → 真结局 */
-  function unlockTrueEnding31() {
-    if (!puzzleSolved.value) return
+  /** node 30 剧情后进入 node 31 叙事 */
+  function unlockNarrative31() {
     unlockNode(31)
   }
 
-  const ending27Available = ref(false)
+  /** node 31 叙事进入 node 32 谜题 */
+  function unlockPuzzle32() {
+    unlockNode(32)
+  }
 
-  function maybeUnlockEnding27() {
-    const ok =
-      REQUIRED_IDS_BEFORE_ENDING_27.every((id) => unlockedNodeIds.value.has(id)) &&
-      Object.entries(CHAT_ROOM_SEGMENT_KEYS).every(([nid, keys]) => {
-        const n = Number(nid)
-        if (!unlockedNodeIds.value.has(n)) return true
-        return keys.every((k) => viewedSegments.value.has(k))
-      })
-    if (ok && !ending27Available.value) {
-      ending27Available.value = true
-      unlockNode(27)
+  /** 假结局点击红色退出 → node 34 真结局 */
+  function unlockTrueEnding34() {
+    if (!puzzleSolved.value) return
+    unlockNode(34)
+  }
+
+  const ending30Available = ref(false)
+
+  function maybeUnlockEnding30() {
+    const ok = viewedSegments.value.has(VIEWED_SEGMENT_ACADEMIC_PAPER_34)
+    if (ok && !ending30Available.value) {
+      ending30Available.value = true
+      unlockNode(30)
     }
   }
 
@@ -262,9 +257,9 @@ export const useGameStore = defineStore('game', () => {
     chatLoginUser.value = 'none'
     viewedSegments.value = new Set()
     puzzleSolved.value = false
-    ending27ReadyFor28.value = false
-    ending27SeenIntro.value = false
-    ending27Available.value = false
+    ending30ReadyFor31.value = false
+    ending30SeenIntro.value = false
+    ending30Available.value = false
     forumHauntedAfter26.value = false
     persist()
   }
@@ -284,9 +279,9 @@ export const useGameStore = defineStore('game', () => {
     chatLoginUser: computed(() => chatLoginUser.value),
     viewedSegments: computed(() => viewedSegments.value),
     puzzleSolved: computed(() => puzzleSolved.value),
-    ending27Available: computed(() => ending27Available.value),
-    ending27ReadyFor28: computed(() => ending27ReadyFor28.value),
-    ending27SeenIntro: computed(() => ending27SeenIntro.value),
+    ending30Available: computed(() => ending30Available.value),
+    ending30ReadyFor31: computed(() => ending30ReadyFor31.value),
+    ending30SeenIntro: computed(() => ending30SeenIntro.value),
     forumHauntedAfter26: computed(() => forumHauntedAfter26.value),
     markForumHauntedAfterNode26,
     unlockNode,
@@ -299,12 +294,12 @@ export const useGameStore = defineStore('game', () => {
     loginChat,
     logoutChat,
     submitPuzzle,
-    finishEnding27Messages,
-    unlockNarrative28,
-    unlockPuzzle29,
-    unlockTrueEnding31,
+    finishEnding30Messages,
+    unlockNarrative31,
+    unlockPuzzle32,
+    unlockTrueEnding34,
     resetProgress,
     isUnlocked,
-    maybeUnlockEnding27,
+    maybeUnlockEnding30,
   }
 })

@@ -15,9 +15,9 @@ export type PageKind =
   | 'endingPuzzle'
   | 'endingFake'
   | 'endingTrue'
-  | 'ending27'
-  /** 地方志 / 古籍摘录全页 */
+  | 'ending30'
   | 'gazetteer'
+  | 'academicPdf'
 
 export interface StoryNodeBase {
   id: number

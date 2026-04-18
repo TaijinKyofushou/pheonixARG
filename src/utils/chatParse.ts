@@ -7,11 +7,16 @@ export type BubblePart = StoryContentPart
 export type SpeakerRoleKey = 'april' | 'bell' | 'collide' | 'deposit' | 'fileTransfer' | 'other'
 
 export interface BubbleRow {
+  /** 默认气泡；`system` 为居中灰色系统提示（源码行以 ———— 开头；展示保留整行含首尾 ————） */
+  kind?: 'bubble' | 'system'
   speaker: string
   parts: BubblePart[]
   side: 'left' | 'right'
   roleKey: SpeakerRoleKey
 }
+
+/** 剧情里标记系统/撤回提示：行首四个 U+2014 */
+const SYSTEM_LINE_PREFIX = '————'
 
 /**
  * 将发言者归一为 april/bell/collide/deposit/other。
@@ -28,6 +33,37 @@ export function normalizeSpeakerRole(speaker: string): SpeakerRoleKey {
   if (s === 'collide') return 'collide'
   if (s === 'deposit') return 'deposit'
   return 'other'
+}
+
+/** 剧情中故意展示的乱码身份：侧边栏用空白头像，不按 id 推断主题色。 */
+export const SIDEBAR_BLANK_AVATAR_LABEL = '锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛'
+
+export function isSidebarBlankAvatarLabel(label: string): boolean {
+  return label === SIDEBAR_BLANK_AVATAR_LABEL
+}
+
+/**
+ * 侧边栏私聊头像主题：优先按联系人名称识别；名称异常时用语义 id 尾缀 -a/-b/-c/-d（April/Bell/Collide/Deposit）。
+ */
+export function sidebarContactThemeRole(id: string, label: string): SpeakerRoleKey | 'main' | null {
+  if (id === 'main') return 'main'
+  if (isSidebarBlankAvatarLabel(label)) return null
+  if (id === 'fileTransfer' || label === '文件传输助手') return 'fileTransfer'
+  const fromLabel = normalizeSpeakerRole(label)
+  if (fromLabel !== 'other') return fromLabel
+  const m = id.match(/-([abcd])$/i)
+  if (!m) return null
+  const map = { a: 'april', b: 'bell', c: 'collide', d: 'deposit' } as const
+  return map[m[1].toLowerCase() as keyof typeof map]
+}
+
+/** 用于 contact-av 的修饰 class；主频道无主题色。 */
+export function sidebarContactAvatarClass(id: string, label: string): string | null {
+  if (isSidebarBlankAvatarLabel(label)) return 'contact-av--blank'
+  const role = sidebarContactThemeRole(id, label)
+  if (!role || role === 'main') return null
+  if (role === 'fileTransfer') return 'contact-av--file-transfer'
+  return `contact-av--${role}`
 }
 
 /**
@@ -47,6 +83,16 @@ export function parseContentToBubbleRows(raw: string, loginUser: ChatLoginUser):
   const lines = raw.trim().split('\n').filter(Boolean)
   const rows: BubbleRow[] = []
   for (const line of lines) {
+    if (line.startsWith(SYSTEM_LINE_PREFIX)) {
+      rows.push({
+        kind: 'system',
+        speaker: '',
+        parts: splitContentWithLinks(line),
+        side: 'left',
+        roleKey: 'other',
+      })
+      continue
+    }
     const sepCn = line.indexOf('：')
     const sepEn = line.indexOf(':')
     let sep = -1

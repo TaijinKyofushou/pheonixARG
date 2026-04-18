@@ -31,7 +31,7 @@ function submit() {
     return
   }
   else alert('登录成功！正在进入个人主页……')
-  router.push('/node/32')
+  router.push('/node/27')
 }
 </script>
 

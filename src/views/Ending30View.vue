@@ -36,15 +36,15 @@ A：谢谢你`
       window.setTimeout(() => {
         showTransfer.value = false
         showCta.value = true
-        game.finishEnding27Messages()
+        game.finishEnding30Messages()
       }, 1700)
     }
   }, 650)
 })
 
 function go() {
-  game.unlockNarrative28()
-  router.push('/node/28')
+  game.unlockNarrative31()
+  router.push('/node/31')
 }
 </script>
 

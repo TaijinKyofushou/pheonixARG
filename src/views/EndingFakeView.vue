@@ -13,8 +13,8 @@ const router = useRouter()
 const game = useGameStore()
 
 function exit() {
-  game.unlockTrueEnding31()
-  router.push('/node/31')
+  game.unlockTrueEnding34()
+  router.push('/node/34')
 }
 </script>
 

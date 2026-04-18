@@ -3,6 +3,7 @@ import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FullPageNode } from '@/types/story'
 import SearchPanel from '@/components/chat/SearchPanel.vue'
+import { flavourSearchHint } from '@/content/searchHints'
 import { useGameStore } from '@/stores/game'
 import { getFullPage } from '@/content/storyNodes'
 
@@ -45,7 +46,8 @@ function onForumSearch(kw: string) {
   }
   const ok = game.tryForumKeywordSearch(kw)
   if (!ok) {
-    alert('未找到匹配关键词！')
+    const hint = flavourSearchHint(kw)
+    alert(hint ?? '未找到匹配关键词！')
     return
   }
   alert('搜索到相关内容 1 条')

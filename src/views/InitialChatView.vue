@@ -12,7 +12,9 @@ import {
   INITIAL_CHAT_BLOCK_ORDER,
   panelToFeedSegments,
 } from '@/content/storyNodes'
+import { isSidebarBlankAvatarLabel, sidebarContactAvatarClass } from '@/utils/chatParse'
 import { useChatShareLink } from '@/composables/useChatShareLink'
+import { flavourSearchHint } from '@/content/searchHints'
 import { useGameStore } from '@/stores/game'
 
 const router = useRouter()
@@ -88,8 +90,13 @@ function isFileTransferContact(id: string, label: string): boolean {
 }
 
 function contactAvatarText(id: string, label: string): string {
+  if (isSidebarBlankAvatarLabel(label)) return ''
   if (isFileTransferContact(id, label)) return '传'
   return label.slice(0, 1)
+}
+
+function contactAvThemeClass(id: string, label: string): string | null {
+  return sidebarContactAvatarClass(id, label)
 }
 
 function onSearch(kw: string) {
@@ -98,9 +105,10 @@ function onSearch(kw: string) {
     suppressNextSegmentScroll.value = true
     selectedContactId.value = 'main'
     alert('搜索到1条聊天记录')
-  } else {
-    alert('未找到匹配关键词！')
+    return
   }
+  const hint = flavourSearchHint(kw)
+  alert(hint ?? '未找到匹配关键词！')
 }
 
 function onLink(linkId: number) {
@@ -160,10 +168,10 @@ function selectContact(id: string) {
       >
         <div
           class="contact-av"
-          :class="{
-            on: selectedContactId === c.id,
-            'contact-av--file-transfer': isFileTransferContact(c.id, c.label),
-          }"
+          :class="[
+            contactAvThemeClass(c.id, c.label),
+            { on: selectedContactId === c.id },
+          ]"
         >
           {{ contactAvatarText(c.id, c.label) }}
         </div>
@@ -185,10 +193,10 @@ function selectContact(id: string) {
 
   <teleport to="body">
     <button
-      v-if="game.ending27Available"
+      v-if="game.ending30Available"
       type="button"
       class="toast"
-      @click="router.push('/node/27')"
+      @click="router.push('/node/30')"
     >
       您收到一条新消息
     </button>
@@ -250,9 +258,40 @@ function selectContact(id: string) {
   background: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
+.contact-av--blank {
+  background: transparent;
+  border: none;
+  color: transparent;
+}
+.contact-av--blank.on {
+  background: transparent;
+  border: none;
+  color: transparent;
+}
+.contact-av--april {
+  background: #b4c2d4;
+  color: #141414;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+}
+.contact-av--bell {
+  background: #b5c4b8;
+  color: #141414;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+}
+.contact-av--collide {
+  background: #c4b8c8;
+  color: #141414;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+}
+.contact-av--deposit {
+  background: #d4c4a8;
+  color: #141414;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+}
 .contact-av--file-transfer {
   background: #c9dfd6;
   color: #1e4f3d;
+  border: 1px solid rgba(20, 20, 20, 0.08);
 }
 .contact-meta {
   min-width: 0;

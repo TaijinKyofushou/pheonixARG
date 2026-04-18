@@ -27,7 +27,7 @@ function closeTips() {
 <template>
   <div class="wrap">
     <header class="hero">
-      <h1 class="title">北京市某高校大学生失踪事件</h1>
+      <h1 class="title">北京市某高校大学生清明失踪事件</h1>
       <!-- <p class="sub">Author: 青天浩渺白日灼灼</p> -->
     </header>
 
@@ -72,13 +72,13 @@ function closeTips() {
         注意，游戏中可能有轻度的恐怖要素和惊吓环节。
       </p>
       <p class="p">
-        游戏流程大致为：登录聊天室 → 阅读内容 → 搜索关键词 → 解锁新页面。没有需要局外搜索的线索，没有需要查看源码的谜题，也没有需要破解的加密密码。
+        游戏流程大致为：登录聊天室 → 阅读内容 → 搜索关键词 → 解锁新页面。没有需要局外搜索的线索，没有需要查看源码的谜题，也没有需要破解的加密内容。
       </p>
       <p class="p">
         有些页面可能只会出现一次，因此强烈建议使用excel或备忘录记录关键信息，避免遗漏线索。
       </p>
-      <p class="p">游戏时间约为1小时。希望你玩得开心！</p>
-      <p class="p">tips：刚进入页面不知道搜什么？试试搜一下计组教授的名字吧！</p>
+      <p class="p">游戏可解锁内容共34页+15个彩蛋，预计游戏时间1小时。希望你玩得开心！</p>
+      <p class="p">tips：刚进入页面不知道搜什么？试试搜一下计组教授或助教的名字吧！</p>
       <div class="actions">
         <div class="actions-left">
           <button type="button" class="primary" @click="start">进入聊天室</button>
@@ -106,14 +106,13 @@ function closeTips() {
           <p class="p">10：是不是有一个人一直没出现 <span class="keyword">账号：Deposit 密码：Deposit</span></p>
           <p class="p">11：“我”的发帖里症状原因是什么 <span class="keyword">薪火焚身</span></p>
           <p class="p">12：难道你不想再看一章吗 <span class="keyword">玄坛秘笺</span></p>
-          <p class="p">13：出现了奇怪的名词 <span class="keyword">爝火赓炁</span></p>
+          <p class="p">13：出现了拗口的专有名词 <span class="keyword">爝火赓炁</span></p>
           <p class="p">14：（较难）最下方有一行小字 <span class="keyword">重明龛</span></p>
           <p class="p">15：在聊天室搜索过吗 <span class="keyword">重明龛</span></p>
-          <p class="p">16：一个很特殊的日期 <span class="keyword">登录Collide账号，密码为20100807</span></p>
+          <p class="p">16：对某人很特殊的日期 <span class="keyword">登录Collide账号，密码为20100807</span></p>
           <p class="p">17：Collide在哪里 <span class="keyword">北医三院</span></p>
           <p class="p">18：（较难）电子病历是用谁的账号打开的  <span class="keyword">Bell的所有账号都是同一个密码</span> <span class="keyword">网页url可以看到登录信息</span> <span class="keyword">GUtoA7sX</span></p>
           <p class="p">19：县志上不知谁作了批注 <span class="keyword">破局之机，惟环外也</span></p>
-          <p class="p">20：谜语人 <span class="keyword">不是谜语人，是谜语人</span></p>
         </div>
       </section>
     </div>

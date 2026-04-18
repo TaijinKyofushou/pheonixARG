@@ -11,8 +11,8 @@ const router = useRouter()
 const game = useGameStore()
 
 function go() {
-  game.unlockPuzzle29()
-  router.push('/node/29')
+  game.unlockPuzzle32()
+  router.push('/node/32')
 }
 </script>
 

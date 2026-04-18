@@ -14,13 +14,14 @@ import MysteryNoteView from '@/views/MysteryNoteView.vue'
 import ChatRoomView from '@/views/ChatRoomView.vue'
 import MedicalRecordView from '@/views/MedicalRecordView.vue'
 import VoiceTranscriptView from '@/views/VoiceTranscriptView.vue'
-import Ending27View from '@/views/Ending27View.vue'
+import Ending30View from '@/views/Ending30View.vue'
 import NarrativeView from '@/views/NarrativeView.vue'
 import EndingPuzzleView from '@/views/EndingPuzzleView.vue'
 import EndingFakeView from '@/views/EndingFakeView.vue'
 import EndingTrueView from '@/views/EndingTrueView.vue'
 import ForbiddenWarningView from '@/views/ForbiddenWarningView.vue'
 import GazetteerView from '@/views/GazetteerView.vue'
+import AcademicPaperPdfView from '@/views/AcademicPaperPdfView.vue'
 
 const props = defineProps<{
   id: string
@@ -61,8 +62,8 @@ const comp = computed(() => {
       return MedicalRecordView
     case 'voiceTranscript':
       return VoiceTranscriptView
-    case 'ending27':
-      return Ending27View
+    case 'ending30':
+      return Ending30View
     case 'narrative':
       return NarrativeView
     case 'endingPuzzle':
@@ -73,6 +74,8 @@ const comp = computed(() => {
       return EndingTrueView
     case 'gazetteer':
       return GazetteerView
+    case 'academicPdf':
+      return AcademicPaperPdfView
     default:
       return HomeView
   }
@@ -81,7 +84,7 @@ const comp = computed(() => {
 const forumVariant = computed(() => {
   const id = nid.value
   if (id === 10) return game.forumLoggedIn ? ('d_posts' as const) : ('guest' as const)
-  if (id === 12 || id === 32) return 'd_posts' as const
+  if (id === 12 || id === 27) return 'd_posts' as const
   if (id === 26) return 'truth' as const
   return 'guest' as const
 })

@@ -7,11 +7,11 @@ import { flavourSearchHint } from '@/content/searchHints'
 import { useGameStore } from '@/stores/game'
 
 /**
- * 真相帖（node 26）：滚底 + 先滚动 → 底部浮动打字层打出「我也在看着你👁👁」后保留不消失 →
+ * 真相帖（node 26）：滚底 + 先滚动 → 底部浮动打字层打出「形神俱灭，世不存焉！」后保留不消失 →
  * 再对主帖做原地替换：从文末向前（页底先被替换）。「正文内容」标题不参与替换。
  */
 
-const FLOATING_TYPEWRITER_TEXT = '我也在看着你👁👁'
+const FLOATING_TYPEWRITER_TEXT = '形神俱灭，世不存焉！'
 const REPLACE_PHRASE = [...FLOATING_TYPEWRITER_TEXT]
 
 const REPLACE_TICK_MS = 32

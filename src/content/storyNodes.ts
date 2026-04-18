@@ -108,7 +108,7 @@ Bell：？`,
       author: 'Nightingale',
       publishedAt: '2025-12-20 21:34',
       leadParagraphs: [
-        '最近在好几个群里都看到有人在说教三地下室那个“凤凰还愿”的事，说什么许愿特别灵，尤其是考试、绩点、感情之类的。有人去过吗？真的假的？',
+        '最近好几个群里都看到有人在说教三地下室那个“凤凰还愿”的事，说什么许愿特别灵，尤其是考试、绩点、感情之类的。有人去过吗？真的假的？',
         '求去过的佬讲讲怎么操作，想试试但又怕出事。',
       ],
       pinnedReplies: [
@@ -488,7 +488,7 @@ export const chatBlocks: Record<
       Bell：我熬到5点终于搞完的ppt，做完我就基本昏过去了
       Bell：结果下午三点起床一看群里通知
       Bell：计组提前到早八了TT
-      Bell：张杨给我打电话我也没听到
+      Bell：杨立凡给我打电话我也没听到
       Bell：这下是彻底寄了
       April：怎么会这样……
       April：早知道你昨天不如陪我排位
@@ -497,12 +497,12 @@ export const chatBlocks: Record<
     `,
   },
   3: {
-    keyword: '张杨',
+    keyword: '杨立凡',
     timeline: '2026年1月24日',
     content: `
-      Bell：@April 张杨喊你去健身
+      Bell：@April 杨立凡喊你去健身
       April：你自己不去陪他^^
-      Bell：autumn没跟你说吗 我要准备下周的美赛TT
+      Bell：summer没跟你说吗 我要准备下周的美赛TT
       April：哇噻BB大人真的是业务繁忙欸 天天都有竞赛要打^^
       April：话说上周大创路演怎么样了
       Bell：寄了。
@@ -1032,7 +1032,7 @@ Bell：能不能先报个平安TT`,
           Bell：我去翻了县志
           Bell：去查了论文
           Bell：我基本可以肯定一切都是因为那个仪式
-          Bell：「爝火赓炁」
+          Bell：“爝火赓炁”
           Bell：而我们是因为愿望的因果重叠了
           Bell：导致代价反复被积累放大
           Bell：才会有现在的情况

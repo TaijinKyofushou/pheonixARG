@@ -155,8 +155,10 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function markSegment(segmentKey: string) {
-    if (viewedSegments.value.has(segmentKey)) return
-    viewedSegments.value = new Set(viewedSegments.value).add(segmentKey)
+    if (!viewedSegments.value.has(segmentKey)) {
+      viewedSegments.value = new Set(viewedSegments.value).add(segmentKey)
+    }
+    // 始终尝试同步结局入口（修复「已有 segment 但 ending30 未解锁」的不一致，如旧存档或热更新）
     maybeUnlockEnding30()
   }
 

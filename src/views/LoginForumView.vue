@@ -113,6 +113,7 @@ function submit() {
   border: 1px solid var(--color-border);
   background: #0f0f14;
   color: inherit;
+  color-scheme: dark;
 }
 .err {
   margin: 0;

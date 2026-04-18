@@ -156,6 +156,8 @@ function submit() {
   border: 1px solid #cbd5e1;
   background: #fafbfc;
   color: #111827;
+  /* 浅色弹窗内强制浅色原生控件（密码可见性按钮等） */
+  color-scheme: light;
 }
 .inp:hover {
   border-color: #93c5fd;

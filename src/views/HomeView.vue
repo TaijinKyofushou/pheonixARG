@@ -96,7 +96,7 @@ function closeTips() {
         </header>
         <div class="tips-body">
           <p class="p">1：计组教授的名字是什么  <span class="keyword">黄文礼</span></p>
-          <p class="p">2：出现了一个名字  <span class="keyword">张杨</span></p>
+          <p class="p">2：出现了一个名字  <span class="keyword">杨立凡</span></p>
           <p class="p">3：Bell的竞赛结果怎么样了 <span class="keyword">美赛</span></p>
           <p class="p">4：出现了特定地址 <span class="keyword">教三地下室</span></p>
           <p class="p">5：试过登录了吗 <span class="keyword">右上角登录April的账号</span></p>

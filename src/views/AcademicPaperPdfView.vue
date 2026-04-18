@@ -2,7 +2,7 @@
 import type { FullPageNode } from '@/types/story'
 import { VIEWED_SEGMENT_ACADEMIC_PAPER_34 } from '@/content/unlockRules'
 import { useGameStore } from '@/stores/game'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const props = defineProps<{
@@ -14,15 +14,9 @@ const game = useGameStore()
 
 const fileName = computed(() => props.node.gist ?? 'document.pdf')
 
-onMounted(() => {
-  game.markSegment(VIEWED_SEGMENT_ACADEMIC_PAPER_34)
-})
-
+/** 页尾返回：解锁结局入口并回到初始聊天室（toast 仅挂在 InitialChatView，不能用 router.back 以免回到论坛等页） */
 function back() {
-  if (window.history.length > 1) {
-    router.back()
-    return
-  }
+  game.markSegment(VIEWED_SEGMENT_ACADEMIC_PAPER_34)
   router.push('/node/1')
 }
 </script>
@@ -150,7 +144,7 @@ function back() {
               <section class="paper-section">
                 <h3 class="paper-h3 paper-h3--lead">5.5 本章结语</h3>
                 <p>
-                  爝火赓炁之术，究其本质，乃是仿效凤凰涅槃神话中的因果轮回意象，以一人之“炁”延续另一人之“薪”。当这种因果传递形成闭合环路之后，薪火便不再照亮某一个体，而是彼此焚烧、相互消耗，直至环内所有成员的薪柴全部燃尽。而环外之人的介入，其性质并非对业环的破解，而是一种宣告——将业环中每一段因果完整、准确地呈递于重明鸟之前，使之无从隐匿，继而以敕令促其各归其位。
+                  爝火赓炁之术，究其本质，乃是仿效凤凰涅槃神话中的因果轮回意象，以一人之“炁”延续另一人之“薪”。当这种因果传递形成闭合环路之后，薪火便不再照亮某一个体，而是彼此焚烧、相互消耗，直至环内所有成员的薪柴全部燃尽。而环外之人的介入，其性质并非对业环的破解，而是一种宣告——将业环中的每一段因果完整、准确地呈递于重明鸟之前，使之无从隐匿，继而以敕令促其各归其位。
                 </p>
                 <p>
                   若介入者书写的因果清单存在任何错误——包括但不限于姓名不符、时间有误、愿望内容存在偏差——仪式将立刻失败，且环内业火会立即反噬介入者本人。因此，环外人的介入虽有破局之机，实则凶险万分。笔者在此郑重建议：勿行此术，勿结业环。速止速止，勿蹈覆辙。

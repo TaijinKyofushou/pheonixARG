@@ -1,7 +1,7 @@
 /** 初始聊天室关键词 -> 解锁的聊天块节点 id */
 export const CHAT_KEYWORD_TO_BLOCK_ID: Record<string, number> = {
   黄文礼: 2,
-  张杨: 3,
+  杨立凡: 3,
   美赛: 4,
   教三地下室: 5,
   凤凰还愿: 9,
@@ -33,7 +33,7 @@ export const LINK_ID_TO_NODE_ID: Record<number, number> = {
 export const CHAT_BLOCK_IDS = new Set([2, 3, 4, 5, 9, 16, 20, 25])
 
 /**
- * 进入论文全页（node 29）时写入 `viewedSegments`。
+ * 在 node 29 论文页点击页尾「返回」时写入 `viewedSegments`。
  * 结局入口（`ending30Available` / 解锁 node 30）仅依赖此标记。
  */
 export const VIEWED_SEGMENT_ACADEMIC_PAPER_34 = 'academicPaper34'

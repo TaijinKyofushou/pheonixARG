@@ -28,6 +28,8 @@ const HINT_KEYBOARD_MASH = `你认真的吗？
 
 const HINT_RED_HERRING = `只是个比喻而已啦，别在意。`
 
+const HINT_REALITY = `太现实了吧……`
+
 const HINT_NO_SPOON_A_EN = `是我。`
 const HINT_NO_SPOON_A_ZH = `是我。`
 
@@ -48,19 +50,21 @@ const KEYS_NO_SPOON_ZH = new Set(['梁宇', '张一然'])
 const KEYS_NO_SPOON_EN = new Set(['bell', 'collide'])
 
 const KEYS_NO_SPOON_A_EN = new Set(['april'])
-const KEYS_NO_SPOON_A_ZH = new Set(['陈思哲'])
+const KEYS_NO_SPOON_A_ZH = new Set(['陈思哲', 'A队'])
 
 const KEYS_NO_SPOON_D_EN = new Set(['deposit'])
 const KEYS_NO_SPOON_D_ZH = new Set(['王博傲'])
 
-const KEYS_NO_SPOON_OTHER_EN = new Set(['yosemite', 'autumn', 'kale', 'aaaay'])
+const KEYS_NO_SPOON_OTHER_EN = new Set(['yosemite', 'summer', 'kale', 'aaaay'])
 const KEYS_NO_SPOON_OTHER_ZH = new Set(['磊哥', '王磊', '阿杨'])
 
 const KEYS_META = new Set(['环外人', '介入者', '破局', '破解', '方法', '办法', '攻略'])
 
 const KEYS_RED_HERRING = new Set(['猴爪'])
 
-const KEYS_MISSING = new Set(['锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛', '形神俱灭，世不存焉'])
+const KEYS_REALITY = new Set(['大创', '路演', '大创路演', '补考', '数据结构', '大作业', '竞赛', '作业', '考试', '期末', '期中', '计组', '计算机组成原理', '六级', '四级', '绩点', '挂科', '挂了'])
+
+const KEYS_MISSING = new Set(['锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛', '形神俱灭，世不存焉', '形神俱灭，世不存焉！'])
 
 /** 含任一子串即视为写错 */
 const WRONG_CHAR_SUBSTRINGS = ['嚼火', '爵火', '庚炁', '赓无', '庚无'] as const
@@ -100,5 +104,6 @@ export function flavourSearchHint(raw: string): string | null {
   if (KEYS_NO_SPOON_D_ZH.has(k)) return HINT_NO_SPOON_D_ZH
   if (KEYS_RED_HERRING.has(k)) return HINT_RED_HERRING
   if (KEYS_MISSING.has(k)) return HINT_MISSING
+  if (KEYS_REALITY.has(k)) return HINT_REALITY
   return null
 }

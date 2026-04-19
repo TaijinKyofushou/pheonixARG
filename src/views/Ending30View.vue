@@ -160,6 +160,10 @@ function finishTyping() {
   window.setTimeout(() => {
     showButton.value = true
     game.finishEnding30Messages()
+    // 按钮出现后再次滚动到底部，确保 CTA 完整可见
+    nextTick(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    })
     
     // 启动彩蛋定时器（30秒）
     startEasterEggTimer()
@@ -341,7 +345,7 @@ function onLeaveCancel() {
         :class="{ 'button-visible': showButton }"
         @click="goToNext"
       >
-        <span class="button-text">我准备好了</span>
+        <span class="button-text">出发去教三</span>
         <span class="button-glow"></span>
       </button>
     </div>

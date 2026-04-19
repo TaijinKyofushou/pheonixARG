@@ -23,7 +23,7 @@ function submit() {
   err.value = ''
   const r = game.loginForumDeposit(account.value, password.value)
   if (r === 'no_account') {
-    err.value = '账号不存在！'
+    err.value = '用户名不存在！'
     return
   }
   if (r === 'bad_password') {
@@ -46,7 +46,7 @@ function submit() {
       </header>
       <form class="form" @submit.prevent="submit">
         <label class="lab">
-          <span>账号</span>
+          <span>用户名</span>
           <input v-model="account" class="inp" />
         </label>
         <label class="lab">
@@ -56,7 +56,7 @@ function submit() {
         <p v-if="err" class="err">{{ err }}</p>
         <button type="submit" class="btn">登录</button>
       </form>
-      <p class="small">初始密码为账号，请及时修改！</p>
+      <p class="small">初始密码为用户名，请及时修改！</p>
     </div>
   </div>
 </template>

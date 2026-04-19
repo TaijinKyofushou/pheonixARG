@@ -48,6 +48,8 @@ export const useGameStore = defineStore('game', () => {
   const ending30SeenIntro = ref(false)
   /** 进入 node26 后，node10/11/12/13/14 路由改至 node15 */
   const forumHauntedAfter26 = ref(false)
+  /** node 30：正在播放留言，用于路由守卫判断 */
+  const ending30Playing = ref(false)
 
   const hydrated = ref(false)
 
@@ -96,6 +98,7 @@ export const useGameStore = defineStore('game', () => {
       puzzleSolved,
       ending30SeenIntro,
       forumHauntedAfter26,
+      ending30Playing,
     ],
     () => {
       if (!hydrated.value) return
@@ -155,10 +158,8 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function markSegment(segmentKey: string) {
-    if (!viewedSegments.value.has(segmentKey)) {
-      viewedSegments.value = new Set(viewedSegments.value).add(segmentKey)
-    }
-    // 始终尝试同步结局入口（修复「已有 segment 但 ending30 未解锁」的不一致，如旧存档或热更新）
+    if (viewedSegments.value.has(segmentKey)) return
+    viewedSegments.value = new Set(viewedSegments.value).add(segmentKey)
     maybeUnlockEnding30()
   }
 
@@ -242,9 +243,9 @@ export const useGameStore = defineStore('game', () => {
     unlockNode(34)
   }
 
-  const ending30Available = ref(false)
+const ending30Available = ref(false)
 
-  function maybeUnlockEnding30() {
+function maybeUnlockEnding30() {
     const ok = viewedSegments.value.has(VIEWED_SEGMENT_ACADEMIC_PAPER_34)
     if (ok && !ending30Available.value) {
       ending30Available.value = true
@@ -284,6 +285,7 @@ export const useGameStore = defineStore('game', () => {
     ending30Available: computed(() => ending30Available.value),
     ending30ReadyFor31: computed(() => ending30ReadyFor31.value),
     ending30SeenIntro: computed(() => ending30SeenIntro.value),
+    ending30Playing: computed(() => ending30Playing.value),
     forumHauntedAfter26: computed(() => forumHauntedAfter26.value),
     markForumHauntedAfterNode26,
     unlockNode,
@@ -303,5 +305,6 @@ export const useGameStore = defineStore('game', () => {
     resetProgress,
     isUnlocked,
     maybeUnlockEnding30,
+    setEnding30Playing: (v: boolean) => { ending30Playing.value = v },
   }
 })

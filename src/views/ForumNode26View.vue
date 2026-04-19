@@ -470,12 +470,6 @@ function onForumSearch(kw: string) {
           <div ref="sentinelRef" class="node26-sentinel" aria-hidden="true" />
         </article>
       </main>
-      <SearchPanel
-        class="side"
-        :disabled="forumVariant === 'guest'"
-        :hint="forumVariant === 'guest' ? '登录后可搜索帖子' : ''"
-        @search="onForumSearch"
-      />
     </div>
 
     <div

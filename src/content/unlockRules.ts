@@ -33,7 +33,7 @@ export const LINK_ID_TO_NODE_ID: Record<number, number> = {
 export const CHAT_BLOCK_IDS = new Set([2, 3, 4, 5, 9, 16, 20, 25])
 
 /**
- * 在 node 29 论文页点击页尾「返回」时写入 `viewedSegments`。
+ * 进入论文全页（node 29）时写入 `viewedSegments`。
  * 结局入口（`ending30Available` / 解锁 node 30）仅依赖此标记。
  */
 export const VIEWED_SEGMENT_ACADEMIC_PAPER_34 = 'academicPaper34'

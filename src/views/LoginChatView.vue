@@ -23,15 +23,14 @@ function back() {
 function forgot() {
   const acc = account.value.trim()
   if (!acc) {
-    err.value = '请输入账号'
+    err.value = '请输入用户名'
     return
   }
   const raw = acc.toLowerCase()
   if (raw === 'april') err.value = '密保：教务处电话'
   else if (raw === 'bell') err.value = '密保：统一密码'
   else if (raw === 'collide') err.value = '密保：那一天'
-  else if (raw === 'deposit') err.value = '该账号仅支持论坛登录'
-  else err.value = '账号不存在'
+  else err.value = '用户名不存在'
 }
 
 function submit() {
@@ -64,11 +63,11 @@ function submit() {
       <header class="top">
         <button type="button" class="x" @click="back">关闭</button>
         <h1 class="h">登录</h1>
-        <p class="sub">请输入账号与 8 位密码</p>
+        <p class="sub">请输入用户名与 8 位密码</p>
       </header>
       <form class="form" @submit.prevent="submit">
         <label class="lab">
-          <span>账号</span>
+          <span>用户名</span>
           <input v-model="account" class="inp" autocomplete="username" />
         </label>
         <label class="lab">

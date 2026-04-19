@@ -52,8 +52,11 @@ const router = createRouter({
   ],
 })
 
+/** Ending30 离开守卫：播放留言时离开需确认 */
+const MSG_GUARD_ENDING30_LEAVE = '我还没说完……你真的要走吗？'
+
 /** 聊天块无独立路由：地址栏硬闯同章节未解锁提示，并合并回初始聊天室 */
-router.beforeEach((to, _from, next) => {
+router.beforeEach((to, from, next) => {
   if (to.name !== 'node') {
     next()
     return
@@ -72,6 +75,23 @@ router.beforeEach((to, _from, next) => {
     return
   }
   const game = useGameStore()
+  
+  // 获取 computed 的实际值
+  const isPlaying = (game.ending30Playing as any).value ?? game.ending30Playing
+  const isReady = (game.ending30ReadyFor31 as any).value ?? game.ending30ReadyFor31
+  
+  // Ending30 离开守卫：如果从 node/30 离开且正在播放留言
+  if (from.path === '/node/30' && isPlaying && !isReady) {
+    const confirmed = confirm(MSG_GUARD_ENDING30_LEAVE)
+    if (confirmed) {
+      game.setEnding30Playing(false)
+      next()
+    } else {
+      next(false)
+    }
+    return
+  }
+  
   if (!game.isUnlocked(id)) {
     if (id === 34) {
       rejectToNode1(MSG_GUARD_TRUE_ENDING, next)

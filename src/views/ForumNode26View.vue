@@ -2,8 +2,6 @@
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { ForumThreadDef, FullPageNode } from '@/types/story'
-import SearchPanel from '@/components/chat/SearchPanel.vue'
-import { flavourSearchHint } from '@/content/searchHints'
 import { useGameStore } from '@/stores/game'
 
 /**
@@ -323,27 +321,6 @@ function back() {
   router.push('/node/1')
 }
 
-function onForumSearch(kw: string) {
-  if (props.forumVariant === 'guest') {
-    alert('未登录用户无法搜索！')
-    return
-  }
-  const ok = game.tryForumKeywordSearch(kw)
-  if (!ok) {
-    const hint = flavourSearchHint(kw)
-    alert(hint ?? '未找到匹配关键词！')
-    return
-  }
-  alert('搜索到相关内容 1 条')
-  const map: Record<string, string> = {
-    薪火焚身: '/node/13',
-    玄坛秘笺: '/node/14',
-    爝火赓炁: '/node/15',
-    重明龛: '/node/26',
-  }
-  const path = map[kw.trim()]
-  if (path) router.push(path)
-}
 </script>
 
 <template>

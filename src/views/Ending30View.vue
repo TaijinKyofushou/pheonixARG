@@ -24,41 +24,42 @@ interface Segment {
 
 // ============ 文本分段数据 ============
 const segments: Segment[] = [
-  { text: '> 你终于看到这里了。', speed: 70, afterPause: 200 },
-  { text: '> 比我预计的慢了一点，但没关系，来了就好。', speed: 70, afterPause: 400 },
-  { text: '> 先确认一下身份——你不认识我，也没见过梁宇、王博傲、张一然中的任何一个。你和我们之间没有任何因果牵连，连"擦肩而过"这种程度的都没有。对吧？', speed: 60, afterPause: 500, names: true },
-  { text: '> 别紧张，我不是在审你。我只是需要确认，你就是我要找的那个人。', speed: 70, afterPause: 300 },
-  { text: '环外人。', speed: 100, afterPause: 600, special: 'outsider' },
-  { text: '> ……这个词你大概已经在论文里看到了。破局之机，惟环外也。写那篇论文的人自己也没验证过，但他推演得没错——业环闭合之后，环里的人再怎么折腾都是白费力气。代价只会在我们四个人之间来回弹，弹到所有人都碎掉为止。', speed: 55, afterPause: 500 },
-  { text: '> 所以我得从环外找人。', speed: 70, afterPause: 300, unstable: true },
-  { text: '> 说得轻巧。一个和四个人都没有任何因果的人，怎么找？就算有，人家凭什么信我？凭什么帮我？', speed: 65, afterPause: 400 },
-  { text: '> 所以我换了个思路。', speed: 70, afterPause: 250 },
-  { text: '> 既然活人找不到，那就找不活的。', speed: 80, afterPause: 400 },
-  { text: '> 哈哈，开玩笑的。也不全是。', speed: 70, afterPause: 350 },
-  { text: '> 你现在看到的这些文字，这些聊天记录、论坛帖子、病历单、录音——都是我已经走过一遍的路。我把它们留在这里，像一个……怎么说，像那种自动回复的邮件？你触发一个关键词，我就跳出来跟你说两句。你走错一步，我就把你拽回来。像个烦人的导航。', speed: 55, afterPause: 450 },
-  { text: '> 你之前应该已经被我烦过几次了吧。抱歉啊，不是故意要当你妈的。只是这件事太重要了，错一步都不行。', speed: 60, afterPause: 400 },
-  { text: '> 至于我现在在哪儿——', speed: 70, afterPause: 500, unstable: true },
-  { text: '> 你就当我把自己上传了。或者卡在加载界面了。反正出不去，但也还没完全消失。刚好够把这条路铺完，把你引到这里。', speed: 60, afterPause: 450 },
-  { text: '> 所以我其实不知道你能不能成功。我没法替你完成最后那一步，只能告诉你该往哪儿走，然后在这儿等着。等着看你是把业环解开，还是跟我一样，被这个东西吞掉。', speed: 55, afterPause: 500 },
-  { text: '> 压力大吗？没事，习惯了就好。', speed: 70, afterPause: 300 },
-  { text: '> 说正事。', speed: 80, afterPause: 400 },
-  { text: '> 酉时三刻，去教三地下室。配电间，颜色不一样的那块砖。搬开，里面有灰烬。', speed: 60, afterPause: 450 },
-  { text: '> 用黄纸写一份东西。内容我已经帮你整理好了，你照着填，一个字不能错。', speed: 60, afterPause: 400 },
-  { text: '> 四个爝者的名字、许愿的时间、许下的愿望、薪主的名字。顺序是因果传递的顺序。别弄反了。', speed: 55, afterPause: 500 },
-  { text: '> 写完，烧掉。然后心里默念——或者念出声也行——"敕令薪火归垣，涅槃重生"。', speed: 60, afterPause: 450 },
-  { text: '> 剩下的，就交给它了。', speed: 70, afterPause: 350 },
-  { text: '> 如果成功了，业环会重置。张一然不用再躺在ICU里，梁宇不用再替我的愿望付代价，王博傲——王博傲大概会忘记这一切。忘记我们。忘记我。', speed: 55, afterPause: 600, names: true },
-  { text: '> 也挺好的。', speed: 80, afterPause: 400 },
-  { text: '> 但你会记得。', speed: 80, afterPause: 500 },
-  { text: '> 你是环外人。你是唯一一个从头到尾看清楚了一切的人。你会记得王博傲冲进火场的样子，记得张一然拿血写黄纸的样子，记得梁宇犹豫了三次才把那个愿望说出口的样子。', speed: 55, afterPause: 600, names: true },
-  { text: '> 也会记得我。', speed: 80, afterPause: 500 },
-  { text: '> 想想还挺不公平的。你连我是谁都不知道，却要替我记着这些。', speed: 65, afterPause: 400 },
-  { text: '> 但总得有人记得。不然这一切就真的什么都没留下了。', speed: 65, afterPause: 450 },
-  { text: '> 好了，差不多就这些。再说下去就有点丢人了。', speed: 70, afterPause: 350 },
-  { text: '> 最后一句——', speed: 80, afterPause: 500 },
-  { text: '> 不管你是谁。', speed: 100, afterPause: 400 },
-  { text: '谢谢你。', speed: 90, afterPause: 3000, special: 'finalThanks' },
-  { text: '> 去吧。酉时不等人。', speed: 80, afterPause: 0 }
+  { text: '> 你终于看到这里了。', speed: 70, afterPause: 400 },
+  { text: '> 比我预想的慢了一点，但没关系，来了就好。', speed: 70, afterPause: 500 },
+  { text: '> 首先确认一下身份——你不认识我，也没见过梁宇、■■■、张一然中的任何一个。你和我们之间没有任何因果牵连，连"擦肩而过"这种程度的都没有。对吧？', speed: 60, afterPause: 600, names: true },
+  { text: '> 放松啦，我没有在审你。我只是需要确认，你就是我要找的那个人。', speed: 40, afterPause: 700 },
+  { text: '环外人。', speed: 100, afterPause: 900, special: 'outsider' },
+  { text: '> ……这个词你大概已经在论文里看到了。破局之机，惟环外也。因果一旦连上，环里的人再怎么折腾都没用，代价只会在我们四个人之间不断累积，直到某一环彻底碎掉。', speed: 55, afterPause: 600 },
+  { text: '> 所以我得从环外找人。', speed: 70, afterPause: 500},
+  { text: '> 哪有那么简单。', speed: 35, afterPause: 500 },
+  { text: '> 就算找到一个和我们四个完全不相干的人，想完成“涅槃”仪式，也得从头到尾把因果梳理一遍。梳理的过程本身就已经算环内的人主动干预了——还是逃不出这个环。', speed: 65, afterPause: 500 },
+  { text: '> 所以我换了个思路。', speed: 70, afterPause: 600 },
+  { text: '> 既然活人找不到，那就找不活的。', speed: 100, afterPause: 700 },
+  { text: '> 开个玩笑啦。', speed: 35, afterPause: 450 },
+  { text: '> 你现在看到的这些文字，这些聊天记录、论坛帖子、论文、录音——都是你自己主动找到的。信息传递的媒介也不是活人，是电脑。没有见面，没有交谈，当然也就没有因果。', speed: 55, afterPause: 550 },
+  { text: '> 至于我现在在哪儿——', speed: 70, afterPause: 600},
+  { text: '> 你就当我把自己蒸馏成了陈思哲.SKILL。', speed: 50, afterPause: 550 },
+  { text: '> 像个……怎么说，像那种自动回复的邮件？你触发一个关键词，我就跳出来跟你说两句。你走错了，我就把你拽回来。', speed: 60, afterPause: 550 },
+  { text: '> 你之前应该已经被我烦过几次了吧。没办法，这件事太重要了，错一步都不行。', speed: 60, afterPause: 600 },
+  { text: '> 其实我也不知道你能不能成功。我没法替你完成最后一步，只能告诉你该往哪里走，然后在这等着。等着看你是把业环解开，还是跟我一样，被这个东西吞掉。', speed: 55, afterPause: 500 },
+  { text: '> 你不会有压力了吧？', speed: 40, afterPause: 600 },
+  { text: '> 没事，习惯就好。', speed: 60, afterPause: 500 },
+  { text: '> 说正事。', speed: 80, afterPause: 500 },
+  { text: '> 卯时三刻，去教三地下室，配电间。搬开颜色不一样的那块砖，里面会有没烧干净的纸灰。', speed: 60, afterPause: 500 },
+  { text: '> 用黄纸写下许愿人的名字、许愿的时间、许下的愿望、对应的那个人。一个字也不能错。', speed: 60, afterPause: 500 },
+  { text: '> 写完，烧掉。然后心里默念——或者念出声也行——"敕令薪火归垣，涅槃重生"。', speed: 60, afterPause: 550 },
+  { text: '> 剩下的，就交给它了。', speed: 70, afterPause: 450 },
+  { text: '> 如果成功了，业环会重置。张一然不用再躺在ICU里，梁宇不用再替我的愿望付代价。■■■——■■■大概会忘记2010年以后的一切。忘记我们。忘记我。', speed: 55, afterPause: 600, names: true },
+  { text: '> 也挺好的。', speed: 80, afterPause: 500 },
+  { text: '> 但你会记得。', speed: 80, afterPause: 600 },
+  { text: '> 你是环外人。是唯一一个从头到尾看清楚了一切的人。你会记得■■■曾经冲进火场的样子，记得张一然用血在黄纸上写字的样子，记得梁宇亲口许愿自己朋友消失的样子。也会记得我。', speed: 80, afterPause: 600, names: true },
+  { text: '> 想想还挺不公平的。', speed: 65, afterPause: 500 },
+  { text: '> 但总要有人记得。不然这一切就真的什么都没留下了。', speed: 65, afterPause: 550 },
+  { text: '> 好了，差不多就这些。再说下去就要超时了。', speed: 70, afterPause: 450 },
+  { text: '> 最后一句——', speed: 80, afterPause: 600 },
+  { text: '> 虽然不知道你是谁。', speed: 100, afterPause: 500 },
+  { text: '> 谢谢你。', speed: 90, afterPause: 3000, special: 'finalThanks'},
+  { text: '> 去吧。卯时不等人。', speed: 80, afterPause: 0 }
 ]
 
 // ============ 响应式状态 ============
@@ -68,10 +69,12 @@ const isTyping = ref(false)             // 是否正在打字
 const showCursor = ref(false)           // 是否显示光标
 const isFinished = ref(false)           // 是否全部完成
 const showButton = ref(false)           // 是否显示按钮
-const showEasterEgg = ref(false)        // 是否显示彩蛋
+const isMinimized = ref(false)          // 是否最小化
+
+// DOM引用
+const messageWrapperRef = ref<HTMLElement | null>(null)
 
 // 计时器引用
-let easterEggTimer: number | null = null
 let cleanupFns: (() => void)[] = []
 
 // 离开守卫状态
@@ -84,9 +87,10 @@ let leaveResolve: ((value: boolean) => void) | null = null
  */
 function highlightNames(text: string): string {
   return text
-    .replace(/张一然/g, '<span class="name-highlight name-zhang" data-name="zhang">张一然</span>')
-    .replace(/梁宇/g, '<span class="name-highlight name-liang" data-name="liang">梁宇</span>')
-    .replace(/王博傲/g, '<span class="name-highlight name-wang" data-name="wang">王博傲</span>')
+    .replace(/张一然/g, '<span class="name-highlight name-collide" data-name="collide">张一然</span>')
+    .replace(/梁宇/g, '<span class="name-highlight name-bell" data-name="bell">梁宇</span>')
+    .replace(/■■■/g, '<span class="name-highlight name-deposit" data-name="deposit">■■■</span>')
+    .replace(/(?<![们友他她它])我(?![们的])/g, '<span class="name-highlight name-april" data-name="april">我</span>')
 }
 
 /**
@@ -105,13 +109,8 @@ async function typeSegment(segmentIndex: number): Promise<void> {
 
   let currentText = ''
   const chars = segment.text.split('')
-  const unstableDelays = segment.unstable
-    ? Array.from({ length: Math.floor(Math.random() * 2) + 2 }, () => Math.floor(Math.random() * chars.length))
-    : []
 
   for (let i = 0; i < chars.length; i++) {
-    // 检查是否需要额外卡顿
-    const extraDelay = unstableDelays.includes(i) ? Math.random() * 150 + 150 : 0
     
     await new Promise(resolve => {
       const timer = window.setTimeout(() => {
@@ -120,13 +119,16 @@ async function typeSegment(segmentIndex: number): Promise<void> {
         // 更新显示
         displayedLines.value[segmentIndex] = segment.names ? highlightNames(currentText) : currentText
         
-        // 自动滚动到页面底部
+        // 自动滚动到内容区域底部
         nextTick(() => {
-          window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+          const wrapper = messageWrapperRef.value
+          if (wrapper) {
+            wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' })
+          }
         })
         
         resolve(undefined)
-      }, segment.speed + extraDelay)
+      }, segment.speed)
       cleanupFns.push(() => window.clearTimeout(timer))
     })
   }
@@ -162,35 +164,16 @@ function finishTyping() {
     game.finishEnding30Messages()
     // 按钮出现后再次滚动到底部，确保 CTA 完整可见
     nextTick(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+      const wrapper = messageWrapperRef.value
+      if (wrapper) {
+        wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' })
+      }
     })
-    
-    // 启动彩蛋定时器（30秒）
-    startEasterEggTimer()
   }, 500)
 }
 
-// ============ 彩蛋功能 ============
-function startEasterEggTimer() {
-  easterEggTimer = window.setTimeout(() => {
-    if (!isFinished.value || !showButton.value) return
-    showEasterEgg.value = true
-    
-    // 3秒后消失
-    window.setTimeout(() => {
-      showEasterEgg.value = false
-    }, 3000)
-  }, 30000)
-}
-
 // ============ 交互功能 ============
-function goToNext() {
-  // 清除彩蛋定时器
-  if (easterEggTimer) {
-    window.clearTimeout(easterEggTimer)
-    easterEggTimer = null
-  }
-  
+function goToNext() { 
   // 标记不再播放
   game.setEnding30Playing(false)
   
@@ -199,7 +182,13 @@ function goToNext() {
 }
 
 function minimizeWindow() {
-  router.push('/node/1')
+  // 最小化窗口
+  isMinimized.value = true
+}
+
+function maximizeWindow() {
+  // 从最小化状态恢复
+  isMinimized.value = false
 }
 
 function exitWindow() {
@@ -208,11 +197,21 @@ function exitWindow() {
 
 // ============ 生命周期 ============
 onMounted(() => {
-  // 标记正在播放Ending30留言
-  game.setEnding30Playing(true)
-  
-  // 开始打字
-  typeSegment(0)
+  // 检查是否已经完整播放过
+  if (game.ending30ReadyFor31) {
+    // 直接展示全部内容
+    displayedLines.value = segments.map(s => s.names ? highlightNames(s.text) : s.text)
+    currentSegmentIndex.value = segments.length
+    isFinished.value = true
+    showButton.value = true
+    game.setEnding30Playing(true)
+  } else {
+    // 标记正在播放Ending30留言
+    game.setEnding30Playing(true)
+    
+    // 开始打字
+    typeSegment(0)
+  }
   
   // 添加 beforeunload 监听防止浏览器关闭/刷新
   window.addEventListener('beforeunload', handleBeforeUnload)
@@ -221,7 +220,6 @@ onMounted(() => {
 onUnmounted(() => {
   // 清除所有计时器
   cleanupFns.forEach(fn => fn())
-  if (easterEggTimer) window.clearTimeout(easterEggTimer)
   
   // 标记不再播放
   game.setEnding30Playing(false)
@@ -258,7 +256,6 @@ onBeforeRouteLeave((_to, _from, next) => {
     if (confirmed) {
       // 用户确认离开，清理资源
       cleanupFns.forEach(fn => fn())
-      if (easterEggTimer) window.clearTimeout(easterEggTimer)
       game.setEnding30Playing(false)
       next()
     } else {
@@ -284,17 +281,25 @@ function onLeaveCancel() {
 </script>
 
 <template>
-  <div class="terminal-container">
+  <div class="desktop-background">
+    <div 
+      class="terminal-container"
+      :class="{ 'minimized': isMinimized }"
+    >
     <!-- CMD 标题栏 -->
     <header class="terminal-header">
       <div class="cmd-tab-strip">
-        <div class="cmd-tab active">C:\Windows\System32\cmd.exe</div>
+        <div class="cmd-tab active">
+          <span class="tab-title">C:\Windows\System32\cmd.exe</span>
+          <button type="button" class="tab-close" aria-label="关闭标签">&#10005;</button>
+        </div>
+        <button type="button" class="new-tab-btn" aria-label="新建标签">+</button>
       </div>
       <div class="window-controls">
         <button type="button" class="window-btn min-btn" aria-label="最小化" @click="minimizeWindow">
           &#9472;
         </button>
-        <button type="button" class="window-btn max-btn" aria-label="最大化" tabindex="-1">
+        <button type="button" class="window-btn max-btn" aria-label="最大化" @click="maximizeWindow">
           &#9723;
         </button>
         <button type="button" class="window-btn close-btn" aria-label="退出" @click="exitWindow">
@@ -305,6 +310,7 @@ function onLeaveCancel() {
 
     <!-- 消息区域 -->
     <section 
+      ref="messageWrapperRef"
       class="message-wrapper" 
       :class="{
         'final-breathe': isFinished && !showButton
@@ -333,58 +339,116 @@ function onLeaveCancel() {
       </div>
     </section>
 
-    <!-- 操作按钮 -->
-    <div v-if="showButton" class="action-area">
-      <div v-if="showEasterEgg" class="easter-egg">
-        还在看？……我其实已经不在线了。别等，去做。
-      </div>
-      
-      <button 
-        type="button" 
-        class="action-button"
-        :class="{ 'button-visible': showButton }"
-        @click="goToNext"
-      >
-        <span class="button-text">出发去教三</span>
-        <span class="button-glow"></span>
-      </button>
-    </div>
-
     <!-- 离开确认对话框 -->
     <Ending30GuardDialog
       :visible="showLeaveDialog"
       @confirm="onLeaveConfirm"
       @cancel="onLeaveCancel"
     />
+    </div>
+
+    <!-- 外部操作按钮 - 最小化后显示 -->
+    <div v-if="showButton && isMinimized" class="external-action-area">
+      <button 
+        type="button" 
+        class="external-action-button"
+        @click="goToNext"
+      >
+        <span class="button-text">出发去教三</span>
+        <span class="button-glow"></span>
+      </button>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* 隐藏右侧滚动条，但保留滚动能力 */
-:global(html),
-:global(body) {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* ============ 桌面背景 ============ */
+.desktop-background {
+  min-height: 100vh;
+  background: url('/image/background.png') center/cover no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
-:global(html::-webkit-scrollbar),
-:global(body::-webkit-scrollbar) {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
+/* 隐藏右侧滚动条，但保留滚动能力 - 应用到内容区域 */
 /* ============ 基础容器 ============ */
 .terminal-container {
-  min-height: 100vh;
+  width: 95vw;
+  height: 95vh;
+  max-width: 1200px;
+  max-height: 90vh;
+  margin: 2.5vh auto;
   background: radial-gradient(ellipse at center, #0a0a0c 0%, #000000 100%);
   animation: breathe 15s ease-in-out infinite;
-  padding: 1.5rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 0, 0, 0.3);
+  padding: 0 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow-x: hidden;
-  font-family: "NSimSun", "SimSun", serif;
+  overflow: hidden;
+  font-family: ui-monospace;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 最小化状态 - 模拟Windows最小化到任务栏效果 */
+.terminal-container.minimized {
+  width: 200px;
+  height: 40px;
+  max-width: 200px;
+  max-height: 40px;
+  margin: auto auto 40px;
+  opacity: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #4a4a4a;
+  animation: none;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-container.minimized .terminal-header {
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  background: #4a4a4a;
+}
+
+.terminal-container.minimized .cmd-tab-strip {
+  min-height: auto;
+}
+
+.terminal-container.minimized .cmd-tab {
+  padding: 0.15rem 0.3rem;
+  font-size: 0.7rem;
+}
+
+.terminal-container.minimized .tab-title {
+  max-width: 80px;
+  font-size: 0.7rem;
+}
+
+.terminal-container.minimized .tab-close,
+.terminal-container.minimized .new-tab-btn {
+  display: none;
+}
+
+.terminal-container.minimized .window-controls {
+  gap: 0.15rem;
+}
+
+.terminal-container.minimized .window-btn {
+  width: 20px;
+  height: 20px;
+  font-size: 0.7rem;
+}
+
+.terminal-container.minimized .message-wrapper {
+  display: none;
 }
 
 @keyframes breathe {
@@ -402,24 +466,27 @@ function onLeaveCancel() {
 .terminal-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
+  align-items: flex-end;
+  flex-shrink: 0;
   z-index: 20;
-  margin: -1.5rem -1.5rem 1.2rem;
-  padding: 0.4rem 0.55rem 0.3rem;
+  margin: 0 -1.5rem 0;
+  padding: 0.4rem 0.55rem 0;
   background: #333333;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px 6px 0 0;
 }
 
 .cmd-tab-strip {
   display: flex;
   align-items: flex-end;
   min-height: 34px;
+  gap: 0.15rem;
 }
 
 .cmd-tab {
-  padding: 0.45rem 0.9rem 0.42rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.5rem 0.42rem 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: none;
   border-radius: 8px 8px 0 0;
@@ -430,7 +497,55 @@ function onLeaveCancel() {
 }
 
 .cmd-tab.active {
-  background: #111;
+  background: #030303;
+}
+
+.tab-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.tab-close {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255);
+  font-size: 0.7rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.tab-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.new-tab-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  transition: all 0.15s ease;
+}
+
+.new-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .window-controls {
@@ -455,11 +570,11 @@ function onLeaveCancel() {
 }
 
 .max-btn {
-  cursor: default;
+  cursor: pointer;
 }
 
 .max-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .close-btn:hover {
@@ -474,11 +589,22 @@ function onLeaveCancel() {
   width: 100%;
   padding: 0.6rem 0.35rem 1rem 0.2rem;
   will-change: transform;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* 隐藏滚动条但保留滚动功能 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.message-wrapper::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
 }
 
 .message-content {
   font-family: inherit;
-  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
@@ -503,6 +629,37 @@ function onLeaveCancel() {
   animation: glitch-intense 0.15s ease-in-out 5;
   font-weight: bold;
   letter-spacing: 0.05em;
+}
+
+/* 谢谢你 - 黄色光晕 */
+.highlight-thanks {
+  color: #ffd700;
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.8),
+    0 0 20px rgba(255, 215, 0, 0.6),
+    0 0 40px rgba(255, 215, 0, 0.4),
+    0 0 60px rgba(255, 215, 0, 0.3);
+  font-weight: bold;
+  animation: breathe-intense 2s ease-in-out infinite;
+}
+
+@keyframes breathe-intense {
+  0%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 10px rgba(255, 215, 0, 0.8),
+      0 0 20px rgba(255, 215, 0, 0.6),
+      0 0 40px rgba(255, 215, 0, 0.4),
+      0 0 60px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    opacity: 0.95;
+    text-shadow:
+      0 0 15px rgba(255, 215, 0, 0.9),
+      0 0 30px rgba(255, 215, 0, 0.7),
+      0 0 50px rgba(255, 215, 0, 0.5),
+      0 0 80px rgba(255, 215, 0, 0.4);
+  }
 }
 
 @keyframes glitch-intense {
@@ -560,19 +717,6 @@ function onLeaveCancel() {
   }
 }
 
-/* 最后感谢特殊效果 - 超夸张发光 */
-.highlight-thanks {
-  color: #ffec8b;
-  text-shadow:
-    0 0 10px rgba(255, 236, 139, 1),
-    0 0 20px rgba(255, 236, 139, 0.9),
-    0 0 40px rgba(255, 236, 139, 0.8),
-    0 0 80px rgba(255, 236, 139, 0.6),
-    0 0 120px rgba(255, 215, 0, 0.4);
-  animation: breathe-intense 2s ease-in-out infinite;
-  font-weight: bold;
-}
-
 @keyframes breathe-intense {
   0%, 100% { 
     opacity: 1;
@@ -617,7 +761,7 @@ function onLeaveCancel() {
 }
 
 /* 张一然 - 荧光紫色 */
-:deep(.name-zhang) {
+:deep(.name-collide) {
   color: #e879f9;
   text-shadow:
     0 0 10px rgba(232, 121, 249, 0.8),
@@ -626,7 +770,7 @@ function onLeaveCancel() {
 }
 
 /* 梁宇 - 荧光绿色 */
-:deep(.name-liang) {
+:deep(.name-bell) {
   color: #4ade80;
   text-shadow:
     0 0 10px rgba(74, 222, 128, 0.8),
@@ -635,12 +779,21 @@ function onLeaveCancel() {
 }
 
 /* 王博傲 - 荧光橙色 */
-:deep(.name-wang) {
+:deep(.name-deposit) {
   color: #fb923c;
   text-shadow:
     0 0 10px rgba(251, 146, 60, 0.8),
     0 0 20px rgba(251, 146, 60, 0.6),
     0 0 40px rgba(251, 146, 60, 0.4);
+}
+
+/* 陈思哲 - 荧光蓝色 */
+:deep(.name-april) {
+  color: #00d4ff;
+  text-shadow:
+    0 0 10px rgba(0, 212, 255, 0.8),
+    0 0 20px rgba(0, 212, 255, 0.6),
+    0 0 40px rgba(0, 212, 255, 0.4);
 }
 
 /* ============ 光标 ============ */
@@ -679,24 +832,6 @@ function onLeaveCancel() {
   align-items: center;
   gap: 1.5rem;
   padding: 2rem 0;
-}
-
-/* ============ 彩蛋提示 ============ */
-.easter-egg {
-  position: absolute;
-  top: -1rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-  font-style: italic;
-  animation: easterEggShake 0.5s ease-in-out;
-  text-align: center;
-  max-width: 90%;
-}
-
-@keyframes easterEggShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  75% { transform: translateX(3px); }
 }
 
 /* ============ 操作按钮 ============ */
@@ -771,14 +906,96 @@ function onLeaveCancel() {
   100% { left: 100%; }
 }
 
+/* ============ 外部操作按钮（最小化后显示） ============ */
+.external-action-area {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.external-action-button {
+  position: relative;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, rgba(200, 30, 30, 0.15) 0%, rgba(150, 20, 20, 0.1) 100%);
+  border: 1px solid rgba(255, 80, 80, 0.5);
+  border-radius: 4px;
+  color: #ff6b6b;
+  font-family: "NSimSun", "SimSun", serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 8px rgba(255, 80, 80, 0.6);
+  box-shadow: 0 0 20px rgba(255, 50, 50, 0.2), inset 0 0 20px rgba(255, 80, 80, 0.05);
+}
+
+.external-action-button:hover {
+  background: linear-gradient(135deg, rgba(255, 80, 80, 0.25) 0%, rgba(200, 50, 50, 0.15) 100%);
+  border-color: rgba(255, 100, 100, 0.8);
+  box-shadow: 0 0 30px rgba(255, 80, 80, 0.4), inset 0 0 30px rgba(255, 100, 100, 0.1);
+  transform: translateY(-2px);
+  color: #ff8080;
+  animation: external-button-pulse 3s ease-in-out infinite;
+}
+
+.external-action-button .button-glow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 100, 100, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.external-action-button:hover .button-glow {
+  opacity: 1;
+  animation: flow 2.5s linear infinite;
+}
+
+.external-action-button .button-text {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes external-button-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 50, 50, 0.2), inset 0 0 15px rgba(255, 80, 80, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 80, 80, 0.35), inset 0 0 25px rgba(255, 100, 100, 0.1);
+  }
+}
+
 /* ============ 移动端适配 ============ */
 @media (max-width: 640px) {
   .terminal-container {
-    padding: 1rem;
+    padding: 0 1rem 1rem;
   }
 
   .terminal-header {
-    margin: -1rem -1rem 1rem;
+    margin: 0 -1rem 0;
+  }
+
+  .tab-background-bar {
+    margin: 0 -1rem 0.8rem;
+  }
+
+  .tab-title {
+    max-width: 140px;
+  }
+
+  .new-tab-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
   }
   
   .message-content {

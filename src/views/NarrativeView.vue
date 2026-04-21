@@ -39,8 +39,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 import { useRouter } from 'vue-router'
 
 // 文案
@@ -64,12 +65,16 @@ const paragraphs = ref([
 ])
 
 // 滚动检测：严格按段顺序浮现；页首/页尾回退
-const paragraphRefs = ref([])
-const setParagraphRef = (el, index) => {
-  if (el) paragraphRefs.value[index] = el
+const paragraphRefs = ref<(HTMLElement | null)[]>([])
+
+const setParagraphRef = (
+  el: Element | ComponentPublicInstance | null,
+  index: number
+) => {
+  if (el instanceof HTMLElement) paragraphRefs.value[index] = el
 }
 
-const tailSpacerRef = ref(null)
+const tailSpacerRef = ref<HTMLElement | null>(null)
 const showStartButton = ref(false)
 
 const router = useRouter()
@@ -89,8 +94,8 @@ onMounted(() => {
   document.body.classList.add(SCROLLBAR_HIDE_CLASS)
 
   const vh = () => window.innerHeight
-  const scrollRoot = () =>
-    document.scrollingElement ?? document.documentElement
+  const scrollRoot = (): HTMLElement =>
+    (document.scrollingElement ?? document.documentElement) as HTMLElement
 
   const allParagraphsVisible = () => {
     const n = paragraphs.value.length
@@ -173,7 +178,7 @@ onMounted(() => {
   window.addEventListener('resize', scheduleUpdate)
 
   // 手电筒鼠标追踪（仅桌面端）
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     mouseX.value = e.clientX
     mouseY.value = e.clientY
   }

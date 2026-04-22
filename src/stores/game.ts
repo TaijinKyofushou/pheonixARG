@@ -214,12 +214,13 @@ export const useGameStore = defineStore('game', () => {
     if (hydrated.value) persist()
   }
 
+  /**
+   * 谜题提交：无论对错都解锁 node33；仅完全正确时 puzzleSolved，假结局页才显示「退出」进 node34。
+   */
   function submitPuzzle(input: Parameters<typeof isPuzzleStrictlyCorrect>[0]): boolean {
     const ok = isPuzzleStrictlyCorrect(input)
-    if (ok) {
-      puzzleSolved.value = true
-      unlockNode(33)
-    }
+    puzzleSolved.value = ok
+    unlockNode(33)
     return ok
   }
 

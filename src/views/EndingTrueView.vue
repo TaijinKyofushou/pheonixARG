@@ -1,43 +1,172 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { FullPageNode } from '@/types/story'
 
 defineProps<{
   node: FullPageNode
 }>()
 
-const choice = ref<'A' | 'B' | 'C' | null>(null)
-const tone = ref<'很聪明' | '人很好' | '很亲切'>('很聪明')
+type ChatRole = 'me' | 'them'
 
-const lines = ref<string[]>([])
+/** 每条对话：展示文案 + 相对上一条出现后的间隔（ms） */
+interface ChatStep {
+  role: ChatRole
+  /** 气泡内完整一行，含「你：」「D：」前缀 */
+  text: string
+  delayMs: number
+}
 
-function sendPreset() {
-  lines.value = [
-    '你：学长这是我的计组大作业',
-    '你：计组期中大作业.pdf',
-    'D：收到',
-    '你：对了学长',
-    '你：你认识___吗？',
+const WHO_OPTIONS = [
+  {
+    id: 'chensizhe' as const,
+    label: '你认识陈思哲吗？',
+    playerLine: '你认识陈思哲吗？',
+    dReply: '怎么突然问这个',
+  },
+  {
+    id: 'liangyu' as const,
+    label: '你认识梁宇吗？',
+    playerLine: '你认识梁宇吗？',
+    dReply: '这名字一听就很亲切',
+  },
+  {
+    id: 'zhangyiran' as const,
+    label: '你认识张一然吗？',
+    playerLine: '你认识张一然吗？',
+    dReply: '……是谁呢',
+  },
+] as const
+
+type WhoId = (typeof WHO_OPTIONS)[number]['id']
+
+/** 开场到「对了学长」为止，之后由玩家三选一 */
+const OPENING_STEPS: ChatStep[] = [
+  { role: 'me', text: '学长我的计组大作业发你邮箱了', delayMs: 400 },
+  { role: 'them', text: '收到', delayMs: 1200 },
+  { role: 'me', text: '对了学长', delayMs: 1500 },
+]
+
+function closingSteps(dReplyLine: string): ChatStep[] {
+  return [
+    { role: 'them', text: '没听过', delayMs: 1800 },
+    { role: 'them', text: dReplyLine, delayMs: 2200 },
+    { role: 'me', text: '没事', delayMs: 3300 },
+    { role: 'me', text: '我就问一下', delayMs: 1200 },
+    { role: 'me', text: '谢谢学长', delayMs: 800 },
+    { role: 'them', text: '客气', delayMs: 600 },
   ]
 }
 
-function pickWho(who: 'A' | 'B' | 'C') {
-  choice.value = who
-  lines.value = [
-    '你：学长这是我的计组大作业',
-    '你：计组期中大作业.pdf',
-    'D：收到',
-    '你：对了学长',
-    `你：你认识${who}吗？`,
-    'D：没听过',
-    `D：这名字听起来${tone.value}的样子`,
-    '你：没事',
-    '你：我就问一下',
-    '你：谢谢学长',
-  ]
+const visible = ref<{ role: ChatRole; text: string }[]>([])
+const showWhoChoices = ref(false)
+/** 已从列表点选、待点击「发送」写入聊天记录 */
+const pendingWho = ref<WhoId | null>(null)
+const composeText = ref('')
+const isPlaying = ref(false)
+const feedEl = ref<HTMLElement | null>(null)
+
+let timerIds: ReturnType<typeof setTimeout>[] = []
+
+function scrollFeedToBottom() {
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      const el = feedEl.value
+      if (!el) return
+      el.scrollTop = el.scrollHeight
+    })
+  })
 }
 
-sendPreset()
+function clearTimers() {
+  timerIds.forEach((id) => clearTimeout(id))
+  timerIds = []
+}
+
+function pushLine(role: ChatRole, text: string) {
+  visible.value = [...visible.value, { role, text }]
+}
+
+/**
+ * 按每条 delayMs：本条在上一条已显示后再等待 delayMs 出现。
+ * 返回 Promise，在全部排程结束时 resolve（不等待最后一条的「停留」）。
+ */
+function playSteps(steps: ChatStep[]): Promise<void> {
+  return new Promise((resolve) => {
+    let elapsed = 0
+    if (steps.length === 0) {
+      resolve()
+      return
+    }
+    steps.forEach((step, i) => {
+      elapsed += step.delayMs
+      const id = setTimeout(() => {
+        pushLine(step.role, step.text)
+        if (i === steps.length - 1) resolve()
+      }, elapsed)
+      timerIds.push(id)
+    })
+  })
+}
+
+async function runOpening() {
+  clearTimers()
+  visible.value = []
+  showWhoChoices.value = false
+  pendingWho.value = null
+  composeText.value = ''
+  isPlaying.value = true
+  await playSteps(OPENING_STEPS)
+  isPlaying.value = false
+  showWhoChoices.value = true
+}
+
+function selectWhoOption(who: WhoId) {
+  if (isPlaying.value || pendingWho.value) return
+  const opt = WHO_OPTIONS.find((o) => o.id === who)
+  if (!opt) return
+  pendingWho.value = who
+  composeText.value = opt.playerLine
+}
+
+async function sendComposed() {
+  const who = pendingWho.value
+  if (!who || isPlaying.value) return
+  const text = composeText.value.trim()
+  if (!text) return
+
+  const opt = WHO_OPTIONS.find((o) => o.id === who)
+  if (!opt) return
+
+  pendingWho.value = null
+  composeText.value = ''
+  showWhoChoices.value = false
+  pushLine('me', text)
+
+  isPlaying.value = true
+  await playSteps(closingSteps(opt.dReply))
+  isPlaying.value = false
+}
+
+watch(composeText, (v) => {
+  if (pendingWho.value !== null && !v.trim()) {
+    pendingWho.value = null
+  }
+})
+
+watch(
+  () => visible.value.length,
+  () => {
+    scrollFeedToBottom()
+  },
+)
+
+onMounted(() => {
+  void runOpening()
+})
+
+onBeforeUnmount(() => {
+  clearTimers()
+})
 </script>
 
 <template>
@@ -45,128 +174,287 @@ sendPreset()
     <header class="bar">
       <div class="back" aria-hidden="true">＜</div>
       <div class="title">
-        <div class="name">计组助教D</div>
-        <div class="sub">在线</div>
+        <div class="name">计组助教王博傲</div>
       </div>
       <div class="more" aria-hidden="true">⋯</div>
     </header>
 
-    <main class="feed">
-      <div v-for="(l, i) in lines" :key="i" class="bubble" :class="l.startsWith('D') ? 'them' : 'me'">
-        {{ l }}
+    <main ref="feedEl" class="feed">
+      <div
+        v-for="(row, i) in visible"
+        :key="i"
+        class="bubble-wrap"
+        :class="row.role === 'them' ? 'them-wrap' : 'me-wrap'"
+      >
+        <div class="bubble" :class="row.role === 'them' ? 'bubble--them' : 'bubble--me'">
+          {{ row.text }}
+        </div>
       </div>
     </main>
 
     <footer class="foot">
-      <div class="row" v-if="!choice">
-        <span class="lab">选择询问对象：</span>
-        <button type="button" class="chip" @click="pickWho('A')">A</button>
-        <button type="button" class="chip" @click="pickWho('B')">B</button>
-        <button type="button" class="chip" @click="pickWho('C')">C</button>
+      <div class="input-bar">
+        <span class="input-bar__emoji" aria-hidden="true">😊</span>
+        <input
+          v-model="composeText"
+          class="input-bar__field"
+          :class="{ 'input-bar__field--ph': !pendingWho && !composeText }"
+          type="text"
+          autocomplete="off"
+          :readonly="!pendingWho"
+          :placeholder="pendingWho ? '' : '按住 说话'"
+        />
+        <button
+          type="button"
+          class="input-bar__send"
+          :disabled="!pendingWho || !composeText.trim() || isPlaying"
+          @click="sendComposed"
+        >
+          发送
+        </button>
       </div>
-      <div class="row" v-else>
-        <span class="lab">D 的形容词：</span>
-        <select v-model="tone" class="sel" @change="pickWho(choice)">
-          <option value="很聪明">很聪明</option>
-          <option value="人很好">人很好</option>
-          <option value="很亲切">很亲切</option>
-        </select>
+      <div v-if="showWhoChoices && !pendingWho" class="choice-panel">
+        <div class="choice-list">
+          <button
+            v-for="o in WHO_OPTIONS"
+            :key="o.id"
+            type="button"
+            class="choice-btn"
+            :disabled="isPlaying"
+            @click="selectWhoOption(o.id)"
+          >
+            {{ o.label }}
+          </button>
+        </div>
       </div>
-      <button type="button" class="send" @click="sendPreset">发送预设开场</button>
     </footer>
   </div>
 </template>
 
 <style scoped>
 .wx {
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
   max-width: 520px;
   margin: 0 auto;
-  background: #ededed;
+  overflow: hidden;
+  background: #f3f3f3;
   color: #111;
   display: flex;
   flex-direction: column;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
 }
 .bar {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.75rem;
-  background: #f7f7f7;
-  border-bottom: 1px solid #d9d9d9;
+  gap: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+  background: #ededed;
+  border-bottom: 1px solid #d6d6d6;
 }
 .back,
 .more {
-  width: 28px;
-  opacity: 0.35;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  color: #1a1a1a;
+  opacity: 0.88;
+  flex-shrink: 0;
 }
 .title {
   flex: 1;
   text-align: center;
+  min-width: 0;
 }
 .name {
-  font-weight: 700;
-}
-.sub {
-  font-size: 0.75rem;
-  opacity: 0.55;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000;
+  letter-spacing: 0.02em;
 }
 .feed {
   flex: 1;
-  padding: 0.75rem;
-  overflow: auto;
+  min-height: 0;
+  padding: 0.75rem 0.65rem;
+  padding-bottom: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 1.05rem;
+  background: #f3f3f3;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.feed::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.bubble-wrap {
+  display: flex;
+  width: 100%;
+  padding: 0 0.2rem;
+}
+.me-wrap {
+  justify-content: flex-end;
+}
+.them-wrap {
+  justify-content: flex-start;
 }
 .bubble {
-  max-width: 86%;
-  padding: 0.55rem 0.65rem;
-  border-radius: 10px;
-  margin: 0.45rem 0;
-  line-height: 1.45;
+  position: relative;
+  width: fit-content;
+  max-width: min(78vw, 360px);
+  padding: 0.65rem 0.75rem;
+  border-radius: 7px;
+  line-height: 1.5;
+  font-size: 1rem;
+  color: #000;
   white-space: pre-wrap;
+  word-break: break-word;
+  box-sizing: border-box;
 }
-.me {
-  margin-left: auto;
+/* 右侧己方：浅绿 + 朝右小三角 */
+.bubble--me {
+  margin-right: 6px;
   background: #95ec69;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
 }
-.them {
-  margin-right: auto;
+.bubble--me::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 13px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 7px;
+  border-color: transparent transparent transparent #95ec69;
+}
+/* 左侧对方：白底 + 朝左小三角 */
+.bubble--them {
+  margin-left: 6px;
   background: #fff;
-  border: 1px solid #e3e3e3;
+  border: 1px solid #e7e7e7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.bubble--them::after {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 13px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 7px 5px 0;
+  border-color: transparent #fff transparent transparent;
 }
 .foot {
-  border-top: 1px solid #d9d9d9;
+  flex-shrink: 0;
+  background: #f3f3f3;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.65rem;
   background: #f7f7f7;
-  padding: 0.65rem 0.75rem 1rem;
-  display: grid;
+  border-top: 1px solid #dcdcdc;
+}
+.input-bar__emoji {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0.85;
+}
+.input-bar__field {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  padding: 0 0.65rem;
+  font-size: 0.95rem;
+  color: #000;
+  box-sizing: border-box;
+}
+.input-bar__field--ph {
+  text-align: center;
+}
+.input-bar__field::placeholder {
+  color: #888;
+}
+.input-bar__field:read-only {
+  color: #888;
+}
+.input-bar__send {
+  flex-shrink: 0;
+  min-width: 3.25rem;
+  height: 34px;
+  padding: 0 0.65rem;
+  border: none;
+  border-radius: 4px;
+  background: #07c160;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.input-bar__send:disabled {
+  background: #9bdbb5;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: not-allowed;
+}
+.choice-panel {
+  background: #fff;
+  padding: 0.65rem 0.75rem 0.85rem;
+  border-top: 1px solid #ebebeb;
+}
+.choice-list {
+  display: flex;
+  flex-direction: column;
   gap: 0.55rem;
 }
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  align-items: center;
-  font-size: 0.9rem;
-}
-.lab {
-  opacity: 0.75;
-}
-.chip {
-  border: 1px solid #cfcfcf;
-  background: #fff;
-  border-radius: 999px;
-  padding: 0.25rem 0.55rem;
+.choice-btn {
+  width: 100%;
+  text-align: center;
+  border: none;
+  background: #eeeeee;
+  border-radius: 4px;
+  padding: 0.72rem 0.75rem;
   cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #000;
 }
-.sel {
-  padding: 0.35rem 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #cfcfcf;
+.choice-btn:active:not(:disabled) {
+  filter: brightness(0.97);
 }
-.send {
-  border: 1px solid #cfcfcf;
-  background: #fff;
-  border-radius: 8px;
-  padding: 0.45rem 0.65rem;
-  cursor: pointer;
+.choice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

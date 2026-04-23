@@ -10,21 +10,21 @@ export function getInitialRoomContacts(user: ChatLoginUser): ContactDef[] {
   if (user === 'none') return []
   if (user === 'april') {
     return [
-      { id: 'main', label: '主频道' },
+      { id: 'main', label: '聚是一坨 (4)' },
       { id: '8-ab', label: 'Bell' },
       { id: '8-ac', label: 'Collide' },
     ]
   }
   if (user === 'collide') {
     return [
-      { id: 'main', label: '主频道' },
+      { id: 'main', label: '聚是一坨 (4)' },
       { id: '19-cd', label: '锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛' },
       { id: '19-ca', label: 'April' },
     ]
   }
   if (user === 'bell') {
     return [
-      { id: 'main', label: '主频道' },
+      { id: 'main', label: '聚是一坨 (4)' },
       { id: '23-ba', label: 'April' },
       { id: '23-bd', label: '锘垮舰绁炰勘鐏紝涓栦笉瀛樼剦锛' },
       { id: 'fileTransfer', label: '文件传输助手' },

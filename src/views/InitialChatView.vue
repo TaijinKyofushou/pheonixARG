@@ -81,7 +81,7 @@ const feedSegments = computed(() => {
 })
 
 const paneHead = computed(() => {
-  if (selectedContactId.value === 'main') return '主频道 · 公共聊天'
+  if (selectedContactId.value === 'main') return '主频道 · 聚是一坨 (4)'
   return contacts.value.find((c) => c.id === selectedContactId.value)?.label ?? '私聊'
 })
 

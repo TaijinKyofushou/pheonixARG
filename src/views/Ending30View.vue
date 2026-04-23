@@ -58,7 +58,7 @@ const segments: Segment[] = [
   { text: '> 好了，差不多就这些。再说下去就要超时了。', speed: 60, afterPause: 1000 },
   { text: '> 最后一句——', speed: 70, afterPause: 1500 },
   { text: '> 虽然不知道你是谁。', speed: 70, afterPause: 1500 },
-  { text: '> 谢谢你。', speed: 180, afterPause: 4500, special: 'finalThanks' },
+  { text: '> 谢谢你。', speed: 100, afterPause: 4500, special: 'finalThanks' },
   { text: '> 去吧。卯时不等人。', speed: 65, afterPause: 0 }
 ]
 

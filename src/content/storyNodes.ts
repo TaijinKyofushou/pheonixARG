@@ -439,18 +439,8 @@ April：谢谢你`,
     id: 33,
     role: 'fullPage',
     kind: 'endingFake',
-    content: `Collide：来瓦
-Bell：上号
-April：来了来了
-April：@Collide 开吧
-Collide：等一下，还有人没到呢
-Bell：谁啊？
-April：？
-April：valorant什么时候可以四排了
-Collide：对哦
-Collide：好奇怪啊
-Collide：那我开了`,
-    timeline: '2025年4月7日',
+    content: '',
+    timeline: '',
   },
   34: {
     id: 34,

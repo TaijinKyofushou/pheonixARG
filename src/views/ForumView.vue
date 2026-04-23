@@ -22,6 +22,9 @@ const showForumProfileButton = computed(() => {
   return game.forumLoggedIn
 })
 
+/** 与 store 中 tryForumKeywordSearch 一致：仅已登录可搜索 */
+const forumSearchDisabled = computed(() => !game.forumLoggedIn)
+
 function goLogin() {
   router.push('/node/11')
 }
@@ -35,7 +38,7 @@ function goProfile() {
 }
 
 function onForumSearch(kw: string) {
-  if (props.forumVariant === 'guest') {
+  if (!game.forumLoggedIn) {
     alert('未登录用户无法搜索！')
     return
   }
@@ -164,8 +167,8 @@ function onForumSearch(kw: string) {
       </main>
       <SearchPanel
         class="side"
-        :disabled="forumVariant === 'guest'"
-        :hint="forumVariant === 'guest' ? '登录后可搜索帖子' : ''"
+        :disabled="forumSearchDisabled"
+        :hint="forumSearchDisabled ? '登录后可搜索帖子' : ''"
         @search="onForumSearch"
       />
     </div>

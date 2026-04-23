@@ -40,7 +40,7 @@ const visiblePublicBlocks = computed(() =>
 const contacts = computed(() => {
   const lay = layout.value
   if (!lay) return []
-  const list = [{ id: 'main', label: '主频道' }]
+  const list = [{ id: 'main', label: '聚是一坨 (4)' }]
   for (const p of lay.panels) {
     list.push({ id: p.id, label: p.label })
   }
@@ -92,7 +92,7 @@ const feedSegments = computed(() => {
 })
 
 const paneHead = computed(() => {
-  if (panel.value === 'main') return `主频道`
+  if (panel.value === 'main') return `主频道 · 聚是一坨 (4)`
   return contacts.value.find((c) => c.id === panel.value)?.label ?? '私聊'
 })
 

@@ -43,6 +43,7 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import { useRouter } from 'vue-router'
+import { useGameStore } from '@/stores/game'
 
 // 文案
 const paragraphs = ref([
@@ -78,8 +79,11 @@ const tailSpacerRef = ref<HTMLElement | null>(null)
 const showStartButton = ref(false)
 
 const router = useRouter()
+const game = useGameStore()
 
 const goToNode32 = () => {
+  game.unlockPuzzle32()
+  if (!game.isUnlocked(32)) return
   router.push('/node/32')
 }
 

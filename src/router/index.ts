@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { getFullPage } from '@/content/storyNodes'
 import { useGameStore } from '@/stores/game'
 import { CHAT_BLOCK_IDS } from '@/content/unlockRules'
@@ -40,7 +40,7 @@ function rejectToNode1(message: string, next: (raw?: unknown) => void) {
 }
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', redirect: '/node/0' },
     {

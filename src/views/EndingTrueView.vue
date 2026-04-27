@@ -1,59 +1,103 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import type { FullPageNode } from '@/types/story'
 
 defineProps<{
   node: FullPageNode
 }>()
 
+const router = useRouter()
+
 type ChatRole = 'me' | 'them'
 
 /** 每条对话：展示文案 + 相对上一条出现后的间隔（ms） */
 interface ChatStep {
   role: ChatRole
-  /** 气泡内完整一行，含「你：」「D：」前缀 */
   text: string
   delayMs: number
 }
 
+interface DReplyStep {
+  text: string
+  /** 当前回复距离上一条消息出现的间隔（ms） */
+  delayMs: number
+}
+
+type DReplyConfig = string | readonly DReplyStep[]
+
 const WHO_OPTIONS = [
   {
-    id: 'chensizhe' as const,
+    id: 'april' as const,
     label: '你认识陈思哲吗？',
     playerLine: '你认识陈思哲吗？',
-    dReply: '怎么突然问这个',
+    dReply: [
+      { text: '陈思哲', delayMs: 2000 },
+      { text: '没听过', delayMs: 2700 },
+      { text: '但你这么问了', delayMs: 1500 },
+      { text: '我是不是应该认识？', delayMs: 1700 },
+      { text: '念出来还挺熟悉的', delayMs: 2300 },
+      { text: '好像确实在哪说过', delayMs: 1500 },
+      { text: '算了', delayMs: 2300 },
+      { text: '想不起来了', delayMs: 1700 },
+    ],
   },
   {
-    id: 'liangyu' as const,
+    id: 'bell' as const,
     label: '你认识梁宇吗？',
     playerLine: '你认识梁宇吗？',
-    dReply: '这名字一听就很亲切',
+    dReply: [
+      { text: '不认识', delayMs: 1500 },
+      { text: '你有事找他吗？', delayMs: 1700 },
+      { text: '直接去问应该就行', delayMs: 1200 },
+      { text: '我是不认识', delayMs: 1300 },
+      { text: '但你想让我帮忙联系也行', delayMs: 1500 },
+      { text: '感觉可以认识一下', delayMs: 1400 },
+    ],
   },
   {
-    id: 'zhangyiran' as const,
+    id: 'collide' as const,
     label: '你认识张一然吗？',
     playerLine: '你认识张一然吗？',
-    dReply: '……是谁呢',
+    dReply: [
+      { text: '谁', delayMs: 3000 },
+      { text: '不知道', delayMs: 2700 },
+      { text: '可能在哪见过吧', delayMs: 2300 },
+      { text: '不对', delayMs: 1500 },
+      { text: '应该没有', delayMs: 1700 },
+      { text: '找他有什么事吗', delayMs: 2000 },
+    ],
   },
-] as const
+] as const satisfies readonly {
+  id: string
+  label: string
+  playerLine: string
+  dReply: DReplyConfig
+}[]
 
 type WhoId = (typeof WHO_OPTIONS)[number]['id']
 
 /** 开场到「对了学长」为止，之后由玩家三选一 */
 const OPENING_STEPS: ChatStep[] = [
-  { role: 'me', text: '学长我的计组大作业发你邮箱了', delayMs: 400 },
-  { role: 'them', text: '收到', delayMs: 1200 },
-  { role: 'me', text: '对了学长', delayMs: 1500 },
+  { role: 'me', text: '学长我计组大作业发你邮箱了', delayMs: 400 },
+  { role: 'them', text: '收到', delayMs: 1700 },
+  { role: 'me', text: '对了学长', delayMs: 2000 },
 ]
 
-function closingSteps(dReplyLine: string): ChatStep[] {
+function toDReplySteps(dReply: DReplyConfig): ChatStep[] {
+  if (typeof dReply === 'string') {
+    return [{ role: 'them', text: dReply, delayMs: 200 }]
+  }
+  return dReply.map((item) => ({ role: 'them' as const, text: item.text, delayMs: item.delayMs }))
+}
+
+function closingSteps(dReply: DReplyConfig): ChatStep[] {
   return [
-    { role: 'them', text: '没听过', delayMs: 1800 },
-    { role: 'them', text: dReplyLine, delayMs: 2200 },
-    { role: 'me', text: '没事', delayMs: 3300 },
-    { role: 'me', text: '我就问一下', delayMs: 1200 },
-    { role: 'me', text: '谢谢学长', delayMs: 800 },
-    { role: 'them', text: '客气', delayMs: 600 },
+    ...toDReplySteps(dReply),
+    { role: 'me', text: '没事', delayMs: 3500 },
+    { role: 'me', text: '我就问一下', delayMs: 1700 },
+    { role: 'me', text: '谢谢学长', delayMs: 1300 },
+    { role: 'them', text: '客气', delayMs: 1100 },
   ]
 }
 
@@ -64,8 +108,10 @@ const pendingWho = ref<WhoId | null>(null)
 const composeText = ref('')
 const isPlaying = ref(false)
 const feedEl = ref<HTMLElement | null>(null)
+const showEndingAchievedModal = ref(false)
 
 let timerIds: ReturnType<typeof setTimeout>[] = []
+let pendingAchievedModal: ReturnType<typeof setTimeout> | null = null
 
 function scrollFeedToBottom() {
   nextTick(() => {
@@ -145,6 +191,14 @@ async function sendComposed() {
   isPlaying.value = true
   await playSteps(closingSteps(opt.dReply))
   isPlaying.value = false
+  if (pendingAchievedModal != null) {
+    clearTimeout(pendingAchievedModal)
+    pendingAchievedModal = null
+  }
+  pendingAchievedModal = setTimeout(() => {
+    pendingAchievedModal = null
+    showEndingAchievedModal.value = true
+  }, 2000)
 }
 
 watch(composeText, (v) => {
@@ -164,8 +218,17 @@ onMounted(() => {
   void runOpening()
 })
 
+function dismissAchievedModalToHome() {
+  showEndingAchievedModal.value = false
+  router.replace('/node/0')
+}
+
 onBeforeUnmount(() => {
   clearTimers()
+  if (pendingAchievedModal != null) {
+    clearTimeout(pendingAchievedModal)
+    pendingAchievedModal = null
+  }
 })
 </script>
 
@@ -228,6 +291,32 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </footer>
+
+    <Teleport to="body">
+      <Transition name="ending-achieved">
+        <div
+          v-if="showEndingAchievedModal"
+          class="achieved-overlay achieved-overlay--true"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="achieved-true-title"
+          aria-describedby="achieved-true-hint"
+          @click="dismissAchievedModalToHome"
+        >
+          <div class="achieved-overlay__stack">
+            <div class="achieved-overlay__frame">
+              <p id="achieved-true-title" class="achieved-overlay__title achieved-overlay__title--true">
+                达成结局：余烬
+              </p>
+              <div class="achieved-overlay__rule" aria-hidden="true" />
+            </div>
+            <p id="achieved-true-hint" class="achieved-overlay__hint achieved-overlay__hint--true">
+              点击任意处返回主页
+            </p>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -456,5 +545,98 @@ onBeforeUnmount(() => {
 .choice-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* 结局弹窗浮现：渐显 + 轻微上浮 */
+.ending-achieved-enter-active {
+  transition:
+    opacity 0.55s cubic-bezier(0.33, 1, 0.68, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ending-achieved-leave-active {
+  transition:
+    opacity 0.28s ease-out,
+    transform 0.28s ease-out;
+}
+.ending-achieved-enter-from,
+.ending-achieved-leave-to {
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+}
+.ending-achieved-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 全屏结局弹窗 */
+.achieved-overlay--true {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: radial-gradient(ellipse 100% 70% at 50% 45%, rgba(185, 28, 28, 0.06), transparent 60%),
+    #faf7f2;
+}
+.achieved-overlay__frame {
+  position: relative;
+  max-width: 20rem;
+  padding: 2.25rem 2rem 1.85rem;
+  text-align: center;
+  border: 2px solid #b91c1c;
+  outline: 1px solid rgba(185, 28, 28, 0.35);
+  outline-offset: 6px;
+  background: linear-gradient(180deg, #fffefb 0%, #faf5eb 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+.achieved-overlay__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+  max-width: min(20rem, calc(100vw - 3rem));
+}
+.achieved-overlay__title--true {
+  margin: 0;
+  font-family: 'STSong', 'SimSun', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: clamp(1.2rem, 4.5vw, 1.55rem);
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: #991b1b;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.achieved-overlay__rule {
+  width: 4rem;
+  height: 2px;
+  margin: 1rem auto 0;
+  background: linear-gradient(90deg, transparent, #b91c1c, transparent);
+  opacity: 0.6;
+}
+.achieved-overlay__hint--true {
+  margin: 0;
+  font-family: ui-monospace;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.5em;
+  color: #7f1d1d;
+  transform-origin: center;
+  animation: ending-hint-breathe-true 3.2s ease-in-out infinite;
+}
+
+@keyframes ending-hint-breathe-true {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
 }
 </style>

@@ -1,36 +1,17 @@
-# 凤凰还愿（Vue3 解密 AVG）
+# pheonix - 北京市某高校大学生清明失踪事件
 
-关键词搜索 + 账号登录 + 链接跳转，静态部署（Vite + Vue Router + Pinia）。
+基于 Vue 3 的解密 AVG，包含关键词搜索、账号登录与剧情节点跳转。
 
-## 开发
+## 技术栈
 
-```bash
-npm install
-npm run dev
-```
+- Vue 3
+- Vue Router 4
+- Pinia
+- Vite
 
-## 构建
+## 内容与存档
 
-```bash
-npm run build
-npm run preview
-```
-
-## 测试
-
-```bash
-npm test
-```
-
-## 部署
-
-- **GitHub Pages**：将 `vite.config.ts` 中 `base` 改为 `/仓库名/`，再用 `gh-pages` 或 Actions 发布 `dist`。
-- **Netlify**：`netlify.toml` 已配置 `publish = dist`，构建命令 `npm run build`。
-
-## 内容配置
-
-剧情文本与节点定义见 [`src/content/storyNodes.ts`](src/content/storyNodes.ts)，谜题标准答案见 [`src/content/puzzleAnswers.ts`](src/content/puzzleAnswers.ts)，解锁规则见 [`src/content/unlockRules.ts`](src/content/unlockRules.ts)。
-
-## 进度存储
-
-进度保存在浏览器 `localStorage`（键名 `pheonix-avg-game-v1`），首页可重置。
+- 剧情节点：`src/content/storyNodes.ts`
+- 谜题答案：`src/content/puzzleAnswers.ts`
+- 解锁规则：`src/content/unlockRules.ts`
+- 本地存档：`localStorage` 键名 `pheonix-avg-game-v1`

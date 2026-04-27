@@ -1,6 +1,6 @@
-const HINT_WRONG_DIRECTION = `你搜这个干嘛。
+const HINT_WRONG_DIRECTION = `你搜这个干什么。
 
-教三的传闻多了去了，大部分是编出来吓新生的。
+教三的传闻可太多了，大部分是编出来吓新生的。
 
 换个方向试试。`
 
@@ -20,7 +20,7 @@ const HINT_META_SELF = `……
 
 const HINT_WRONG_CHARACTER = `字不对。
 
-这东西的名字一个字都不能错。古人搞这套的时候讲究得很，错一个字，仪式就废了。`
+也不知道古人为什么这么讲究，错一个字，仪式就完蛋。`
 
 const HINT_KEYBOARD_MASH = `你认真的吗？
 
@@ -30,8 +30,8 @@ const HINT_RED_HERRING = `只是个比喻而已啦，别在意。`
 
 const HINT_REALITY = `太现实了吧……`
 
-const HINT_NO_SPOON_A_EN = `是我。`
-const HINT_NO_SPOON_A_ZH = `是我。`
+const HINT_NO_SPOON_A_EN = `你找我？`
+const HINT_NO_SPOON_A_ZH = `你找我？`
 
 const HINT_NO_SPOON_D_EN = `谁？`
 const HINT_NO_SPOON_D_ZH = `谁？`

@@ -151,7 +151,7 @@ function ignite() {
               <input v-model="r.day" class="inp w2" maxlength="4" />
               <span>日</span>
               <span>许愿，其愿为</span>
-              <span class="wish">{{ ['死而复生', '知足常乐', '学业有成', '存在抹除'][idx] }}</span>
+              <span class="wish">{{ ['死而复生', '平安喜乐', '学业有成', '因果抹除'][idx] }}</span>
               <span>，</span>
               <span>薪主</span>
               <input v-model="r.wishReceiver" class="inp name" maxlength="10" />

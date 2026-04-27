@@ -22,14 +22,14 @@ export const PUZZLE_ROWS = [
     wisher: '陈思哲',
     year: '2026',
     month: '2',
-    day: '10',
+    day: '8',
     wishReceiver: '梁宇',
   },
   {
     wisher: '梁宇',
     year: '2026',
     month: '4',
-    day: '6',
+    day: '5',
     wishReceiver: '张一然',
   },
 ] as const
@@ -48,9 +48,9 @@ export function buildFullPuzzleText(p: { rows: readonly PuzzleRow[] }): string {
   const r = p.rows
   return [
     `爝者${L(r[0].wisher)}，${L(r[0].year)}年${L(r[0].month)}月${L(r[0].day)}日许愿，其愿为死而复生，薪主${L(r[0].wishReceiver)}。`,
-    `爝者${L(r[1].wisher)}，${L(r[1].year)}年${L(r[1].month)}月${L(r[1].day)}日许愿，其愿为知足常乐，薪主${L(r[1].wishReceiver)}。`,
+    `爝者${L(r[1].wisher)}，${L(r[1].year)}年${L(r[1].month)}月${L(r[1].day)}日许愿，其愿为平安喜乐，薪主${L(r[1].wishReceiver)}。`,
     `爝者${L(r[2].wisher)}，${L(r[2].year)}年${L(r[2].month)}月${L(r[2].day)}日许愿，其愿为学业有成，薪主${L(r[2].wishReceiver)}。`,
-    `爝者${L(r[3].wisher)}，${L(r[3].year)}年${L(r[3].month)}月${L(r[3].day)}日许愿，其愿为存在抹除，薪主${L(r[3].wishReceiver)}。`,
+    `爝者${L(r[3].wisher)}，${L(r[3].year)}年${L(r[3].month)}月${L(r[3].day)}日许愿，其愿为因果抹除，薪主${L(r[3].wishReceiver)}。`,
     `今尘埃已定，业果已成，敕令薪火归垣，涅槃重生。`,
   ].join('\n')
 }

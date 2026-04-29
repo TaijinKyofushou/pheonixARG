@@ -150,7 +150,7 @@ function back() {
               <section class="paper-section">
                 <h3 class="paper-h3 paper-h3--lead">5.5 本章结语</h3>
                 <p>
-                  爝火赓炁之术，究其本质，乃是仿效凤凰涅槃神话中的因果轮回意象，以一人之“炁”延续另一人之“薪”。当这种因果传递形成闭合环路之后，薪火便不再照亮某一个体，而是彼此焚烧、相互消耗，直至环内所有成员的薪柴全部燃尽。而环外之人的介入，其性质并非对业环的破解，而是一种宣告——将业环中的每一段因果完整、准确地呈递于重明鸟之前，使之无从隐匿，继而以敕令促其各归其位。
+                  爝火赓炁之术，究其本质，乃是仿效凤凰涅槃神话中的因果轮回意象，以一人之“炁”延续另一人之“薪”。当这种因果传递形成闭合环路之后，薪火便不再照亮某一个体，而是彼此焚烧、相互消耗，直至环内所有成员的薪柴全部燃尽。而环外之人的介入，其性质并非对业环的破解，而是一种<span class="paper-hl">宣告</span>——将业环中的每一段因果完整、准确地呈递于重明鸟之前，使之无从隐匿，继而以敕令促其各归其位。
                 </p>
                 <p>
                   若介入者书写的因果清单存在任何错误——包括但不限于姓名不符、时间有误、愿望内容存在偏差——仪式将立刻失败，且环内业火会立即反噬介入者本人。因此，环外人的介入虽有破局之机，实则凶险万分。笔者在此郑重建议：勿行此术，勿结业环。速止速止，勿蹈覆辙。
@@ -502,5 +502,68 @@ function back() {
 
 .back:hover {
   background: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 768px) {
+  .title-bar {
+    height: 36px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .toolbar {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+    min-height: auto;
+    padding: 6px 8px;
+  }
+
+  .toolbar-side {
+    display: none;
+  }
+
+  .stage {
+    padding: 10px 6px 14px;
+  }
+
+  .page-stack {
+    gap: 14px;
+    max-width: none;
+  }
+
+  .sheet {
+    width: 100%;
+    min-height: auto;
+    padding: 1.25rem 0.9rem 1rem;
+  }
+
+  .paper-title {
+    font-size: 15pt;
+    line-height: 23pt;
+    margin-bottom: 12pt;
+  }
+
+  .paper-body,
+  .paper-section p,
+  .paper-meta,
+  .paper-h3 {
+    font-size: 11pt;
+    line-height: 18pt;
+  }
+
+  .paper-h2 {
+    font-size: 12.5pt;
+    line-height: 20pt;
+  }
+
+  .sheet-foot {
+    padding-top: 8pt;
+    font-size: 10pt;
+    line-height: 16pt;
+  }
+
+  .pdf-footer {
+    padding: 8px 10px 12px;
+  }
 }
 </style>

@@ -60,7 +60,7 @@ const WHO_OPTIONS = [
     label: '你认识张一然吗？',
     playerLine: '你认识张一然吗？',
     dReply: [
-      { text: '谁', delayMs: 3000 },
+      { text: '谁', delayMs: 5000 },
       { text: '不知道', delayMs: 2700 },
       { text: '可能在哪见过吧', delayMs: 2300 },
       { text: '不对', delayMs: 1500 },
@@ -198,7 +198,7 @@ async function sendComposed() {
   pendingAchievedModal = setTimeout(() => {
     pendingAchievedModal = null
     showEndingAchievedModal.value = true
-  }, 2000)
+  }, 5000)
 }
 
 watch(composeText, (v) => {

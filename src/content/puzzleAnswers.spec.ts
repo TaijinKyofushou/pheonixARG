@@ -19,4 +19,10 @@ describe('puzzleAnswers', () => {
     rows[0] = { ...rows[0], wisher: '错名' }
     expect(isPuzzleStrictlyCorrect({ rows })).toBe(false)
   })
+
+  it('accepts leading zero in date fields', () => {
+    const rows: PuzzleRow[] = PUZZLE_ROWS.map((r) => ({ ...r }))
+    rows[2] = { ...rows[2], month: '02', day: '08' }
+    expect(isPuzzleStrictlyCorrect({ rows })).toBe(true)
+  })
 })

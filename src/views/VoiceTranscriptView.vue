@@ -197,7 +197,7 @@ function startConvert() {
           <input
             type="text"
             class="path-input"
-            value="C:\Users\Administrator\Documents\speech"
+            value="C:\\Users\Administrator\Documents\speech"
             readonly
           />
         </div>

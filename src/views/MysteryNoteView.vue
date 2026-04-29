@@ -146,6 +146,8 @@ const processedContent = (props.node.content ?? '')
   z-index: 2;
   background: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(4px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 竖排文字包装器 */
@@ -156,6 +158,7 @@ const processedContent = (props.node.content ?? '')
   justify-content: center;
   gap: 2.5rem;
   max-height: 85vh;
+  min-width: max-content;
   writing-mode: horizontal-tb;
 }
 
@@ -260,10 +263,12 @@ const processedContent = (props.node.content ?? '')
 @media (max-width: 600px) {
   .scripture-container {
     padding: 3rem 1rem 1.5rem;
+    justify-content: flex-start;
   }
 
   .vertical-text-wrapper {
     gap: 1rem;
+    padding-right: 0.25rem;
   }
 
   .text-column {

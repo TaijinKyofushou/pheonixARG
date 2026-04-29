@@ -1,6 +1,7 @@
 /**
- * 第29页结局谜题——严格逐字匹配（与 CSV 剧情一致）
+ * 第29页结局谜题
  * 模板：爝者_，_年_月_日许愿 … 薪主_。
+ * 例外：日期字段按数值比较，允许前导 0（如 2 与 02 视为相同）。
  */
 
 export const PUZZLE_ROWS = [
@@ -45,12 +46,17 @@ export type PuzzleRow = {
 /** 拼接后与完整句子比对（严格） */
 export function buildFullPuzzleText(p: { rows: readonly PuzzleRow[] }): string {
   const L = (s: string) => s.trim()
+  const D = (s: string) => {
+    const t = s.trim()
+    if (!/^\d+$/.test(t)) return t
+    return String(Number(t))
+  }
   const r = p.rows
   return [
-    `爝者${L(r[0].wisher)}，${L(r[0].year)}年${L(r[0].month)}月${L(r[0].day)}日许愿，其愿为死而复生，薪主${L(r[0].wishReceiver)}。`,
-    `爝者${L(r[1].wisher)}，${L(r[1].year)}年${L(r[1].month)}月${L(r[1].day)}日许愿，其愿为平安喜乐，薪主${L(r[1].wishReceiver)}。`,
-    `爝者${L(r[2].wisher)}，${L(r[2].year)}年${L(r[2].month)}月${L(r[2].day)}日许愿，其愿为学业有成，薪主${L(r[2].wishReceiver)}。`,
-    `爝者${L(r[3].wisher)}，${L(r[3].year)}年${L(r[3].month)}月${L(r[3].day)}日许愿，其愿为因果抹除，薪主${L(r[3].wishReceiver)}。`,
+    `爝者${L(r[0].wisher)}，${D(r[0].year)}年${D(r[0].month)}月${D(r[0].day)}日许愿，其愿为死而复生，薪主${L(r[0].wishReceiver)}。`,
+    `爝者${L(r[1].wisher)}，${D(r[1].year)}年${D(r[1].month)}月${D(r[1].day)}日许愿，其愿为平安喜乐，薪主${L(r[1].wishReceiver)}。`,
+    `爝者${L(r[2].wisher)}，${D(r[2].year)}年${D(r[2].month)}月${D(r[2].day)}日许愿，其愿为学业有成，薪主${L(r[2].wishReceiver)}。`,
+    `爝者${L(r[3].wisher)}，${D(r[3].year)}年${D(r[3].month)}月${D(r[3].day)}日许愿，其愿为因果抹除，薪主${L(r[3].wishReceiver)}。`,
     `今尘埃已定，业果已成，敕令薪火归垣，涅槃重生。`,
   ].join('\n')
 }
